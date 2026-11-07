@@ -5,7 +5,7 @@
 
 ---
 
-## ✅ Already done (no compute needed)
+## [OK] Already done (no compute needed)
 
 - [x] #4 Removed "we don't claim" section from abstract → moved to HTML comment as
   rebuttal cribsheet only ([CGAR_abstract_v1.md](../paper/CGAR_abstract_v1.md))
@@ -18,7 +18,7 @@
 
 ---
 
-## ⏳ TODO — needs Colab compute
+## TODO — needs Colab compute
 
 ### #1 CWQ full results (MANDATORY)
 
@@ -258,7 +258,7 @@ share across seeds.
 
 ---
 
-## 📊 Final EMNLP submission table (target)
+## Final EMNLP submission table (target)
 
 ```
        Method        | LLM      | WebQSP Hit       | CWQ Hit         | ECE    | Cost
@@ -274,7 +274,7 @@ CGAR (ours, n=3)     | Llama-3  | XX.X ± 0.X       | XX.X ± 0.X      | 0.043  
 
 ---
 
-## 🚦 Run order on Colab (rough timeline)
+## Run order on Colab (rough timeline)
 
 | Day | Task | Cell/file |
 |---|---|---|

@@ -100,7 +100,7 @@ FAIL = []  # (name, msg)
 
 def check(name, cond, msg_pass, msg_fail):
     (PASS if cond else FAIL).append((name, msg_pass if cond else msg_fail))
-    flag = '✓' if cond else '✗'
+    flag = 'ok' if cond else 'FAIL'
     print(f'  {flag} {name}: {msg_pass if cond else msg_fail}')
 
 
@@ -231,10 +231,10 @@ def test_5_diversity_is_real_not_placeholder():
     div_disjoint = CGARSCSTTrainer._diversity_jaccard(disjoint_paths)
 
     check('diversity.overlap_low', div_overlap < 0.1,
-          f'overlap paths diversity = {div_overlap:.3f} (low ✓)',
+          f'overlap paths diversity = {div_overlap:.3f} (low, ok)',
           f'overlap paths diversity = {div_overlap:.3f} should be ~0')
     check('diversity.disjoint_high', div_disjoint > 0.9,
-          f'disjoint paths diversity = {div_disjoint:.3f} (high ✓)',
+          f'disjoint paths diversity = {div_disjoint:.3f} (high, ok)',
           f'disjoint paths diversity = {div_disjoint:.3f} should be ~1')
     check('diversity.not_placeholder', abs(div_overlap - div_disjoint) > 0.5,
           f'gap = {abs(div_overlap - div_disjoint):.3f} (Bug C fixed)',
@@ -418,7 +418,7 @@ def main():
             t()
         except Exception as e:
             FAIL.append((t.__name__, f'EXCEPTION: {type(e).__name__}: {e}'))
-            print(f'  ✗ {t.__name__} EXCEPTION: {type(e).__name__}: {e}')
+            print(f'  FAIL {t.__name__} EXCEPTION: {type(e).__name__}: {e}')
             import traceback
             traceback.print_exc()
 
@@ -428,7 +428,7 @@ def main():
     if FAIL:
         print('\nFailures:')
         for name, msg in FAIL:
-            print(f'  ✗ {name}: {msg}')
+            print(f'  FAIL {name}: {msg}')
         sys.exit(1)
     print('\nAll tests passed. Safe to train.')
     sys.exit(0)

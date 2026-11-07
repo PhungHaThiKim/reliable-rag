@@ -239,7 +239,7 @@ def cmd_run(a):
     with open(os.path.join(a.out, "results.json"), "w") as f:
         json.dump(out, f, indent=2, default=lambda o: float(o) if isinstance(o, (np.floating, np.integer)) else str(o))
     print("\n" + write_report(a.out))
-    print(f"\n✓ results → {a.out}/results.json, report.md, pareto.png   ({(time.time()-t_start)/60:.1f} min)")
+    print(f"\nok results → {a.out}/results.json, report.md, pareto.png   ({(time.time()-t_start)/60:.1f} min)")
 
 
 def cmd_report(a):

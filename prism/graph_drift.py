@@ -315,7 +315,7 @@ def plot_drift_curve(results: List[DriftResult],
     plt.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.savefig(out_path.replace('.pdf', '.png'), dpi=150, bbox_inches='tight')
     plt.show()
-    print(f"✓ Saved {out_path}")
+    print(f"ok Saved {out_path}")
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -478,7 +478,7 @@ def full_drift_experiment(las, eval_set, cfg=CFG,
     )
     with open(f"{out_dir}/drift_table.md", "w") as f:
         f.write(table_md)
-    print(f"\n✓ Table saved → {out_dir}/drift_table.md")
+    print(f"\nok Table saved → {out_dir}/drift_table.md")
     print("\nMarkdown table:\n")
     print(table_md)
 

@@ -116,4 +116,4 @@ def _plot_heatmap(heatmap_data: List[Dict], out_path: str):
     plt.tight_layout()
     plt.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.savefig(out_path.replace('.pdf', '.png'), dpi=150, bbox_inches='tight')
-    print(f"✓ Heatmap → {out_path}")
+    print(f"ok Heatmap → {out_path}")

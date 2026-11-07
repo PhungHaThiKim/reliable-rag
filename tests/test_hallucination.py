@@ -136,8 +136,8 @@ if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_") and callable(fn):
             try:
-                fn(); print("  ✓", name)
+                fn(); print("  ok", name)
             except Exception:
-                fails += 1; print("  ✗", name); traceback.print_exc()
+                fails += 1; print("  FAIL", name); traceback.print_exc()
     print("ALL PASSED" if not fails else f"{fails} FAILED")
     sys.exit(1 if fails else 0)

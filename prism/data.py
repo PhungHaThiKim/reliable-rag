@@ -171,7 +171,7 @@ class RoGDataset(Dataset):
         """
         force_gold_in_candidates: if True, reachable gold entities are
             inserted into the candidate set regardless of their score.
-            ⚠ This is LABEL LEAKAGE at evaluation time (the candidate pool
+            WARN: This is LABEL LEAKAGE at evaluation time (the candidate pool
             is built from the answer). Only ever enable it for a TRAIN split
             (it raises the fraction of trainable questions). Default False.
         teacher_mode: "oracle" — heuristic teacher mixes the gold one-hot

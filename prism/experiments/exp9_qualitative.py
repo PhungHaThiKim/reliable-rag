@@ -136,6 +136,6 @@ def run_exp9(las: LAS, eval_set, cfg=CFG,
             f.write(f"- **Hit:** {bool(c['hit'])}\n")
             f.write(f"- **Stop reason:** {c['stopped_reason']}\n")
             f.write(f"- **KL trace:** {c['step_kl'][:5]}{'...' if len(c['step_kl']) > 5 else ''}\n\n")
-    print(f"✓ Saved exp9 case studies → {out_dir}")
+    print(f"ok Saved exp9 case studies → {out_dir}")
     print(f"\n{table_md}")
     return out

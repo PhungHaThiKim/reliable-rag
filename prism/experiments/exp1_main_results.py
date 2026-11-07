@@ -156,7 +156,7 @@ def run_exp1(las: LAS, datasets: Dict, cfg=CFG, out_dir: str = "./results",
         json.dump(saveable, f, indent=2, default=lambda o: float(o)
                    if isinstance(o, (np.floating, np.integer))
                    else (list(o) if isinstance(o, np.ndarray) else str(o)))
-    print(f"\n✓ Saved → {out_path}")
+    print(f"\nok Saved → {out_path}")
 
     # Print summary
     _print_summary(results)

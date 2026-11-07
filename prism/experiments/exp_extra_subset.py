@@ -87,7 +87,7 @@ def run_subset_sweep(las_factory, train_set, eval_set,
                 "final_train_loss": float(sum(losses)/len(losses)),
                 "eval_kl": float(eval_kl),
             }
-            print(f"  ✓ n_sub={n_sub} → eval_kl={eval_kl:.4f}")
+            print(f"  ok n_sub={n_sub} → eval_kl={eval_kl:.4f}")
         finally:
             distill_mod._stratified_subsets = orig_strat
 

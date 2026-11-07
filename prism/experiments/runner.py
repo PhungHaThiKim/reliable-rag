@@ -109,13 +109,13 @@ class ExperimentRunner:
             try:
                 self._run_one(name)
             except Exception as e:
-                print(f"  ⚠ {name} failed: {e}")
+                print(f"  WARN: {name} failed: {e}")
                 self.results[name] = {"error": str(e)}
         self._save_aggregate()
 
     def _run_one(self, name: str):
         if name not in self.EXPERIMENTS:
-            print(f"  ⚠ unknown experiment: {name}")
+            print(f"  WARN: unknown experiment: {name}")
             return
         desc, mod_name = self.EXPERIMENTS[name]
         print(f"\n{'='*70}\nRunning {name} — {desc}\n{'='*70}")
@@ -124,7 +124,7 @@ class ExperimentRunner:
             self.results[name] = self._dispatch(name, mod_name)
         finally:
             self.elapsed[name] = time.time() - t0
-            print(f"  ⏱ {name} took {self.elapsed[name]:.1f}s")
+            print(f"  {name} took {self.elapsed[name]:.1f}s")
 
     def _dispatch(self, name: str, mod_name: str) -> Dict:
         out_dir = self.out_dir
@@ -212,5 +212,5 @@ class ExperimentRunner:
         path = os.path.join(self.out_dir, "all_results.json")
         with open(path, "w") as f:
             json.dump(agg, f, indent=2, default=str)
-        print(f"\n✓ Aggregated all results → {path}")
+        print(f"\nok Aggregated all results → {path}")
         print(f"  Total compute: {agg['total_elapsed_seconds']/60:.1f} min")

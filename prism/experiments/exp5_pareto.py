@@ -104,7 +104,7 @@ def run_exp5(las: LAS, eval_set, cfg=CFG, out_dir: str = "./results",
     }
     with open(os.path.join(out_dir, "exp5_pareto.json"), "w") as f:
         json.dump(out, f, indent=2, default=str)
-    print(f"\n✓ Saved → {os.path.join(out_dir, 'exp5_pareto.json')}")
+    print(f"\nok Saved → {os.path.join(out_dir, 'exp5_pareto.json')}")
 
     _plot_pareto(prism_points, gnn_points, pareto,
                   out_path=os.path.join(out_dir, "exp5_pareto.pdf"))
@@ -168,4 +168,4 @@ def _plot_pareto(prism_pts, gnn_pts, pareto, out_path):
     plt.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.savefig(out_path.replace('.pdf', '.png'), dpi=150, bbox_inches='tight')
     plt.show()
-    print(f"✓ Pareto figure → {out_path}")
+    print(f"ok Pareto figure → {out_path}")

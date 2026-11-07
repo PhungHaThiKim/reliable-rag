@@ -195,7 +195,7 @@ def plot_reliability_diagrams(report_dict: Dict, dev_outs: Dict,
     plt.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.savefig(out_path.replace('.pdf', '.png'), dpi=150, bbox_inches='tight')
     plt.show()
-    print(f"✓ Saved {out_path}")
+    print(f"ok Saved {out_path}")
 
 
 def _print_calib_table(reports: Dict, title: str):

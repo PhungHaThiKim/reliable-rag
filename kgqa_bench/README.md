@@ -113,3 +113,12 @@ and figure (`sel_hit@c`, AURC) for every method with a confidence.
 Reader parsing (D2): `extract_answer_entities` now drops chat openers ("Here are the possible
 answers:", "The answer is:" headers), markdown bold/italics and quotes before matching, which
 fixes `llm_hit1 ≈ 0.07` on Llama-3.1 outputs. `llm_hit` (substring on the raw answer) is unchanged.
+
+## P9 notebook - detailed hallucination evaluation
+
+`P9_Hallucination_Eval_Colab.ipynb` runs the groundedness evaluation offline on every
+`results_gnn/b08*_reader_*` directory produced by P8 cell 08: metric groups A/B/C per reader and
+prompt, claim label x evidence-type cross-tabs against the legacy proxy, worked examples per label,
+error taxonomy and per-qid CGAR-vs-all questions, risk-coverage curves, paired tests, chat vs
+grounded prompt, confidence-gated escalation at the hallucination level, optional LLM judge,
+human-review CSV loading with detector precision/recall and Cohen's kappa, and a final checklist.
