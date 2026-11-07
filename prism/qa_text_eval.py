@@ -24,7 +24,11 @@ def match(prediction: str, answer: str) -> bool:
 _SKIP = [r'^based on', r'^according to', r'^from the reasoning', r'^the reasoning path',
          r'^please note', r'^note:', r'^therefore', r'^hence', r'^in conclusion',
          r'^looking at', r'^considering', r'^given that', r'^i can see', r'^we can see',
-         r'^it (is|appears|seems)']
+         r'^it (is|appears|seems)',
+         # Nov 2026 (D2): Llama-3.1 / Qwen chat openers that are NOT answers
+         r'^here (is|are)', r'^the (possible |final |correct |likely )?answers?( to (the|this|your) question)?( (is|are|include|would be))?:?$',
+         r'^(possible |final )?answers?:?$', r'^(the )?answers?:\s*\S', r'^to answer', r'^the question (asks|is)', r'^these are',
+         r'^(so|thus|overall|in summary)\b']
 
 
 def extract_answer_entities(raw_prediction: str) -> List[str]:
@@ -34,8 +38,11 @@ def extract_answer_entities(raw_prediction: str) -> List[str]:
         return [str(raw_prediction).strip()]
     entities: List[str] = []
     for line in lines:
-        cleaned = re.sub(r'^[\d]+[\.\)]\s*', '', line)
+        cleaned = re.sub(r'^[\d]+[\.\)]\s*', '', line.replace('**', ''))            # numbering, markdown bold
         cleaned = re.sub(r'^[-*\u2022]\s*', '', cleaned).strip()
+        cleaned = cleaned.strip('"\'*_').rstrip('.').strip()                             # quotes / italics / final period
+        if cleaned.endswith(':') and len(cleaned.split()) <= 8:                        # header line ("Possible answers:")
+            continue
         if any(re.match(p, cleaned.lower()) for p in _SKIP):
             m = re.search(r'(?:answers?\s+(?:is|are)|answers?:)\s*(.+?)\.?$', cleaned, re.I)
             if m:

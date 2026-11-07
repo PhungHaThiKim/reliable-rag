@@ -102,8 +102,16 @@ class CGARController(nn.Module):
     def __init__(self, emb_dim=384, hidden_dim=256,
                  max_paths=10, sprt_beta=0.85,
                  redundancy_lambda=0.3, epsilon=0.3,
-                 rel_threshold=None, min_select=1):
+                 rel_threshold=None, min_select=1,
+                 learned_stop=False, stop_threshold=0.5):
         """
+        learned_stop (v3, Nov 2026): a `stop_head` predicts, before each MMR step,
+            P(adding the best remaining path brings NO new answer entity). In
+            deterministic/eval mode the loop stops once that probability exceeds
+            `stop_threshold` (keeps >= min_select). Replaces the K-level SPRT as the
+            adaptive-cost mechanism (which never fires on a <=6-candidate pool).
+            Trained in Stage 1 with BCE on the marginal-gain label (see CGARLoss).
+            In training mode the loop always runs the full budget (teacher forcing).
         rel_threshold: optional logit threshold for ADAPTIVE PATH COUNT.
             v2.1 always selected min(max_paths, n_paths) paths, so the only
             adaptive quantity was K (the candidate pool). With a threshold,
@@ -119,6 +127,8 @@ class CGARController(nn.Module):
         self.epsilon = epsilon  # for epsilon-greedy SCST
         self.rel_threshold = rel_threshold
         self.min_select = min_select
+        self.learned_stop = learned_stop
+        self.stop_threshold = stop_threshold
 
         self.confidence_head = CandidateConfidenceHead(emb_dim, hidden_dim // 2)
         self.evidence_gru = EvidenceGRU(emb_dim)
@@ -127,6 +137,13 @@ class CGARController(nn.Module):
             nn.Linear(emb_dim * 2 + 4, hidden_dim // 2),
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, len(self.K_OPTIONS)),
+        )
+        # v3: learned per-path stopping (logit). Always instantiated so state_dicts
+        # are compatible across variants; only used when learned_stop=True.
+        self.stop_head = nn.Sequential(
+            nn.Linear(emb_dim * 2 + 4, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, 1),
         )
 
     @staticmethod
@@ -230,6 +247,7 @@ class CGARController(nn.Module):
                              'k_confidences': k_confidences,
                              'log_prob_k': log_prob_k,
                              'log_prob_paths': [],
+                             'stop_logits': [], 'stop_candidates': [],
                              'selected_path_embs': None}
             return ([], empty_details) if return_details else []
 
@@ -255,6 +273,7 @@ class CGARController(nn.Module):
 
         selected_indices = []
         log_prob_paths = []  # *** REINFORCE: log_prob of each selection step
+        stop_logits, stop_candidates = [], []   # v3 learned stop: one logit per considered step
         rel_live = rel_scores.squeeze(0)  # (n_paths,) — gradient flows
 
         # Cumulative redundancy tensor (live, shape n_paths) — penalises already-selected
@@ -277,6 +296,19 @@ class CGARController(nn.Module):
                 if (self.rel_threshold is not None
                         and len(selected_indices) >= self.min_select
                         and adjusted[best_idx].item() < self.rel_threshold):
+                    break
+                # v3 learned stop: P(no further gain) from stop_head
+                max_sim = (sim_matrix[best_idx, torch.tensor(selected_indices, device=dev)].max()
+                           if selected_indices else torch.tensor(0.0, device=dev))
+                stop_feat = torch.stack([torch.sigmoid(adjusted[best_idx]),
+                                         torch.tensor(len(selected_indices) / self.max_paths, device=dev),
+                                         max_sim,
+                                         torch.tensor(len(selected_indices) / max(n_paths, 1), device=dev)]).unsqueeze(0).float()
+                stop_logit = self.stop_head(torch.cat([evidence, query_emb, stop_feat], -1)).squeeze()
+                stop_logits.append(stop_logit); stop_candidates.append(best_idx)
+                if (self.learned_stop and not self.training
+                        and len(selected_indices) >= self.min_select
+                        and torch.sigmoid(stop_logit).item() > self.stop_threshold):
                     break
             else:
                 # Categorical sampling for REINFORCE
@@ -319,6 +351,8 @@ class CGARController(nn.Module):
                 'k_confidences': k_confidences,
                 'log_prob_k': log_prob_k,          # *** REINFORCE: K-policy log_prob (or None)
                 'log_prob_paths': log_prob_paths,  # *** REINFORCE: per-step path log_prob
+                'stop_logits': stop_logits,        # v3: logit of "stop before adding stop_candidates[t]"
+                'stop_candidates': stop_candidates,
                 'selected_path_embs': selected_path_embs,  # for diversity reward
                 'selected_indices': selected_indices,
             }
@@ -378,14 +412,57 @@ class CGARRetriever:
 # 4. Loss (FIXED — no more placeholder targets)
 # ══════════════════════════════════════════════════════════════
 
+def _path_ents(p):
+    ents = set()
+    for h, _r, t in p['path_triples']:
+        ents.add(str(h)); ents.add(str(t))
+    return ents
+
+
+def directed_relation_sequence(path_triples, triple_set=None):
+    """Relation sequence of a path with direction recovered from the ORIGINAL
+    directed triples ('inv:r' when traversed backwards). Without `triple_set`
+    the plain relation names are returned."""
+    seq = []
+    for h, r, t in path_triples:
+        h, r, t = str(h), str(r), str(t)
+        if triple_set is None or (h, r, t) in triple_set:
+            seq.append(r)
+        elif (t, r, h) in triple_set:
+            seq.append('inv:' + r)
+        else:
+            seq.append('missing:' + r)
+    return tuple(seq)
+
+
 class CGARLoss(nn.Module):
-    """v2: actual_recall passed in, relevance_scores are LIVE."""
-    def __init__(self, w_conf=0.4, w_rel=0.6):
+    """v2: actual_recall passed in, relevance_scores are LIVE.
+
+    v3 options (Nov 2026):
+      conf_target  'recall' (legacy: MSE to answer recall) | 'hit' (BCE to 1[recall>0];
+                   what ECE/AURC are measured against)
+      rel_label    'entity' (legacy: path touches a gold entity) | 'proof' (path's directed
+                   relation sequence equals a reference proof topic→gold; falls back to
+                   'entity' when the question has no reference proof)
+      w_stop       weight of the learned-stop BCE (label = adding the considered path
+                   brings no new gold entity); 0 disables
+    """
+    def __init__(self, w_conf=0.4, w_rel=0.6, w_stop=0.0, conf_target='recall', rel_label='entity'):
         super().__init__()
         self.w_conf = w_conf
         self.w_rel = w_rel
+        self.w_stop = w_stop
+        assert conf_target in ('recall', 'hit') and rel_label in ('entity', 'proof')
+        self.conf_target = conf_target
+        self.rel_label = rel_label
 
-    def forward(self, details, gold_entities, all_paths_by_k, actual_recall=None):
+    def _conf_term(self, conf, recall, device):
+        if self.conf_target == 'hit':
+            return F.binary_cross_entropy(conf.clamp(1e-6, 1 - 1e-6), torch.tensor([float(recall > 0)], device=device))
+        return F.mse_loss(conf, torch.tensor([float(recall)], device=device))
+
+    def forward(self, details, gold_entities, all_paths_by_k, actual_recall=None,
+                gold_proofs=None, triple_set=None):
         device = details['final_confidence'].device
 
         # L_confidence: calibrate at each K level
@@ -395,33 +472,30 @@ class CGARLoss(nn.Module):
             paths_k = all_paths_by_k.get(ld['K'], [])
             reachable = set()
             for p in paths_k:
-                for h, r, t in p['path_triples']:
-                    reachable.add(str(h)); reachable.add(str(t))
+                reachable |= _path_ents(p)
             actual = len(reachable & gold_entities) / max(len(gold_entities), 1)
-            target = torch.tensor([actual], device=device)
-            conf_loss = conf_loss + F.mse_loss(ld['confidence'], target)
+            conf_loss = conf_loss + self._conf_term(ld['confidence'], actual, device)
             n_conf += 1
         conf_loss = conf_loss / max(n_conf, 1)
 
-        # Final confidence calibration with actual recall
+        # Final confidence calibration with actual recall (or hit)
         if actual_recall is not None:
-            conf_loss = conf_loss + F.mse_loss(
-                details['final_confidence'],
-                torch.tensor([actual_recall], device=device))
+            conf_loss = conf_loss + self._conf_term(details['final_confidence'], actual_recall, device)
 
         # L_relevance: BCE on LIVE relevance scores
         rel_loss = torch.tensor(0.0, device=device)
         rel_scores = details.get('relevance_scores')
+        chosen_k = details['chosen_k']
+        paths = all_paths_by_k.get(chosen_k, [])
         if rel_scores is not None:
-            chosen_k = details['chosen_k']
-            paths = all_paths_by_k.get(chosen_k, [])
             if paths and rel_scores.size(-1) == len(paths):
                 targets = torch.zeros(1, len(paths), device=device)
+                use_proof = self.rel_label == 'proof' and bool(gold_proofs)
                 for i, p in enumerate(paths):
-                    ents = set()
-                    for h, r, t in p['path_triples']:
-                        ents.add(str(h)); ents.add(str(t))
-                    if ents & gold_entities:
+                    if use_proof:
+                        if directed_relation_sequence(p['path_triples'], triple_set) in gold_proofs:
+                            targets[0, i] = 1.0
+                    elif _path_ents(p) & gold_entities:
                         targets[0, i] = 1.0
                 # Weighted BCE: gold paths are rare, upweight them
                 n_pos = targets.sum().item()
@@ -434,11 +508,26 @@ class CGARLoss(nn.Module):
                     rel_loss = F.binary_cross_entropy_with_logits(
                         rel_scores, targets, reduction='mean')
 
-        total = self.w_conf * conf_loss + self.w_rel * rel_loss
+        # L_stop (v3): BCE on "stop before adding this path" = no new gold entity gained
+        stop_loss = torch.tensor(0.0, device=device)
+        logits = details.get('stop_logits') or []
+        if self.w_stop > 0 and logits and paths:
+            cands = details.get('stop_candidates') or []
+            covered = set()
+            tg = []
+            for t, (lg, ci) in enumerate(zip(logits, cands)):
+                gain = (_path_ents(paths[ci]) & gold_entities) - covered
+                tg.append(0.0 if gain else 1.0)
+                covered |= _path_ents(paths[ci])
+            stop_loss = F.binary_cross_entropy_with_logits(torch.stack(logits).float(),
+                                                           torch.tensor(tg, device=device))
+
+        total = self.w_conf * conf_loss + self.w_rel * rel_loss + self.w_stop * stop_loss
         return {
             'total': total,
             'confidence': conf_loss.item() if isinstance(conf_loss, torch.Tensor) else conf_loss,
             'relevance': rel_loss.item() if isinstance(rel_loss, torch.Tensor) else rel_loss,
+            'stop': stop_loss.item() if isinstance(stop_loss, torch.Tensor) else stop_loss,
         }
 
 

@@ -90,3 +90,26 @@ records it also gives llm_hit / llm_f1 / unsupported / real prompt tokens per τ
 python -m kgqa_bench.escalation --results results_gnn/b06_main --dataset webqsp:test --primary cgar --fallback gnnrag_all --plot
 python -m kgqa_bench.escalation --results results_gnn/b08_reader_Qwen2.5-7B-Instruct --dataset webqsp:test --quality llm_hit
 ```
+
+## CGAR v3 options and offline analyses (Nov 2026)
+
+All default OFF, so `cgar` without flags is still the v2.1 controller:
+
+| flag | item | what changes |
+|---|---|---|
+| `--cgar-learned-stop [--cgar-stop-threshold 0.5 --cgar-w-stop 0.3]` | B1 | a `stop_head` predicts, before each MMR step, P(the best remaining path adds no new answer entity); eval stops when it exceeds the threshold. Replaces the K-level SPRT (never fires on a ≤6-candidate pool) as the adaptive-cost mechanism. Trained in Stage 1 (teacher forcing: full budget in train mode). |
+| `--cgar-rel-label proof` | B2 | relevance label = the path's *directed* relation sequence equals a reference proof (shortest topic→gold relation sequence in the subgraph) instead of "path touches a gold entity"; falls back to the entity label when a question has no proof. |
+| `--cgar-conf-target hit` | B3 | confidence head trained with BCE against hit (1[recall>0]) instead of MSE against recall, i.e. against what ECE/AURC measure. |
+| `--cgar-s2-steps 0` | B4 | S1 is the main method (S2 REINFORCE: +0.19 pp, p=0.033, 7.8 % non-zero advantages). |
+
+Checkpoints: v3 checkpoints contain `stop_head.*`; pre-v3 checkpoints load with `learned_stop=False`
+and are refused with `learned_stop=True` (`CGARMethod.load`, strict on everything but the stop head).
+
+`python -m kgqa_bench.analysis` (A2–A4): adaptivity split per question (`controller_stopped_early`
+vs `pool_limited` vs `full_budget`, using the exact number of candidate paths), F1/Hit-ctx by
+#candidates bin, paired bootstrap + McNemar for arbitrary `A:B` pairs, selective-answering table
+and figure (`sel_hit@c`, AURC) for every method with a confidence.
+
+Reader parsing (D2): `extract_answer_entities` now drops chat openers ("Here are the possible
+answers:", "The answer is:" headers), markdown bold/italics and quotes before matching, which
+fixes `llm_hit1 ≈ 0.07` on Llama-3.1 outputs. `llm_hit` (substring on the raw answer) is unchanged.

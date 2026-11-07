@@ -134,13 +134,16 @@ def cmd_run(a):
         for seed in seeds:
             m = CGARMethod(emb, device=device, max_paths_per_pair=a.max_paths_per_pair,
                            rel_threshold=a.cgar_rel_threshold, sprt_beta=a.cgar_beta,
-                           max_paths=a.cgar_max_paths)
+                           max_paths=a.cgar_max_paths, learned_stop=a.cgar_learned_stop,
+                           stop_threshold=a.cgar_stop_threshold)
+            loss_kw = dict(conf_target=a.cgar_conf_target, rel_label=a.cgar_rel_label,
+                           w_stop=(a.cgar_w_stop if a.cgar_learned_stop else 0.0))
             if a.cgar_ckpt:
                 m.load(a.cgar_ckpt)
             elif train_ds is not None:
                 info = m.fit(train_ds, dev_ds, s1_epochs=a.cgar_s1_epochs, s2_steps=a.cgar_s2_steps,
                              s2_samples=a.cgar_s2_samples, eval_max=a.dev_max, seed=seed,
-                             ckpt_dir=os.path.join(a.out, "ckpt"), verbose=not a.quiet)
+                             ckpt_dir=os.path.join(a.out, "ckpt"), verbose=not a.quiet, loss_kw=loss_kw)
                 train_logs[f"cgar@seed{seed}"] = info
             else:
                 print("  (no --train and no --cgar-ckpt: evaluating an UNTRAINED controller)")
@@ -280,6 +283,12 @@ def build_parser():
     r.add_argument("--cgar-beta", type=float, default=0.85)
     r.add_argument("--cgar-max-paths", type=int, default=10)
     r.add_argument("--cgar-rel-threshold", type=float, default=None, help="adaptive path count (logit threshold, e.g. 0.0)")
+    # v3 variants (Nov 2026) — all default OFF so `cgar` stays the legacy v2.1 controller
+    r.add_argument("--cgar-learned-stop", action="store_true", help="B1: learned per-path stop head replaces the K-level SPRT as cost mechanism")
+    r.add_argument("--cgar-stop-threshold", type=float, default=0.5, help="P(stop) above which the learned stop fires")
+    r.add_argument("--cgar-w-stop", type=float, default=0.3, help="weight of the stop BCE in Stage 1")
+    r.add_argument("--cgar-rel-label", choices=["entity", "proof"], default="entity", help="B2: relevance label = path touches gold (entity) | path relation sequence equals a reference proof (proof)")
+    r.add_argument("--cgar-conf-target", choices=["recall", "hit"], default="recall", help="B3: confidence head target = answer recall (MSE) | hit (BCE; what ECE/AURC measure)")
     # PRISM
     r.add_argument("--prism-ckpt", default=None)
     r.add_argument("--prism-teacher-cache", default=None, help="CachedTeacherLLM .pt (real LLM logits); else oracle teacher")

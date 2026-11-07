@@ -232,7 +232,8 @@ class CGARMethod(Method):
     def fit(self, train_ds: BenchDataset, eval_ds: Optional[BenchDataset] = None,
             s1_epochs: int = 10, s1_lr: float = 3e-4, s2_steps: int = 300, s2_lr: float = 5e-5,
             s2_samples: int = 8, eval_max: Optional[int] = 400, ckpt_dir: Optional[str] = None,
-            seed: int = 42, verbose: bool = True) -> Dict:
+            seed: int = 42, verbose: bool = True, loss_kw: Optional[Dict] = None) -> Dict:
+        """loss_kw (v3): conf_target / rel_label / w_stop — see cgar_train.train_cgar_stage1."""
         from .cgar_train import set_seed, train_cgar_stage1, train_cgar_stage2
         set_seed(seed)
         gnn_tr = to_gnn_features(train_ds)
@@ -242,19 +243,30 @@ class CGARMethod(Method):
         c2 = os.path.join(ckpt_dir, f"cgar_s2_seed{seed}.pt") if ckpt_dir else None
         info1 = train_cgar_stage1(self.controller, gnn_tr, train_ds.qids(), self.embedder, gnn_ev, ev_qids,
                                   epochs=s1_epochs, lr=s1_lr, max_paths_per_pair=self.max_paths_per_pair,
-                                  device=self.device, ckpt_path=c1, eval_max=eval_max, verbose=verbose)
+                                  device=self.device, ckpt_path=c1, eval_max=eval_max, verbose=verbose,
+                                  loss_kw=loss_kw)
         info2 = {}
         if s2_steps > 0:
             info2 = train_cgar_stage2(self.controller, gnn_tr, train_ds.qids(), self.embedder, gnn_ev, ev_qids,
                                       steps=s2_steps, lr=s2_lr, n_samples=s2_samples,
                                       max_paths_per_pair=self.max_paths_per_pair, device=self.device,
                                       ckpt_path=c2, eval_max=eval_max, verbose=verbose)
-        self.train_info = {"stage1": info1, "stage2": info2, "seed": seed}
+        self.train_info = {"stage1": info1, "stage2": info2, "seed": seed,
+                           "controller": {"learned_stop": self.controller.learned_stop,
+                                          "stop_threshold": self.controller.stop_threshold,
+                                          "max_paths": self.controller.max_paths},
+                           "loss_kw": dict(loss_kw or {})}
         return self.train_info
 
     def load(self, path: str):
         ck = torch.load(path, map_location="cpu", weights_only=False)
-        self.controller.load_state_dict(ck["model_state"] if "model_state" in ck else ck)
+        sd = ck["model_state"] if "model_state" in ck else ck
+        # strict=False: pre-v3 checkpoints have no stop_head (fine unless learned_stop=True)
+        missing, unexpected = self.controller.load_state_dict(sd, strict=False)
+        missing = [k for k in missing if not k.startswith("stop_head.")] + \
+                  ([k for k in missing if k.startswith("stop_head.")] if self.controller.learned_stop else [])
+        if missing or unexpected:
+            raise RuntimeError(f"checkpoint {path} incompatible: missing={missing} unexpected={unexpected}")
         self.controller.to(self.device)
         return self
 

@@ -20,7 +20,32 @@ from adagraph_cgar_v2 import (CGARController, CGARLoss, CGARRetriever,
                               CGARSCSTTrainer, evaluate_cgar_records, path_entities)
 from grl_rag import extract_candidate_paths_by_k
 
+from .data import build_adjacency, shortest_relation_paths
 from .metrics import summarize_records
+
+
+def proof_info(gnn, qid, max_hops: int = 3, max_paths_per_target: int = 5):
+    """(directed triple set, set of reference-proof relation sequences topic→gold)
+    for one question of a GNNHeuristic feature store. Used by rel_label='proof'."""
+    qdata = gnn.get(qid) or {}
+    triples = []
+    for t in qdata.get("subgraph_tuples", []):
+        if len(t) != 3:
+            continue
+        h, r, tt = t
+        h = h["text"] if isinstance(h, dict) else h
+        r = r["text"] if isinstance(r, dict) else r
+        tt = tt["text"] if isinstance(tt, dict) else tt
+        triples.append((str(h), str(r).strip(), str(tt)))
+    tset = set(triples)
+    adj = build_adjacency(triples, undirected=True)
+    seeds = gnn.get_seeds(qid)
+    by_target = shortest_relation_paths(adj, seeds, max_hops, max_paths_per_target=max_paths_per_target)
+    proofs = set()
+    for a in gnn.get_answers(qid):
+        for pth in by_target.get(str(a), []):
+            proofs.add(tuple(r for (_h, r, _t) in pth))
+    return tset, proofs
 
 
 def set_seed(seed: int):
@@ -44,8 +69,12 @@ def train_cgar_stage1(controller: CGARController, gnn_train, train_qids: List[st
                       w_rel: float = 0.6, max_paths_per_pair: int = 3,
                       device: str = "cpu", ckpt_path: Optional[str] = None,
                       log_every: int = 300, eval_max: Optional[int] = None,
-                      verbose: bool = True) -> Dict:
-    loss_fn = CGARLoss(w_conf=w_conf, w_rel=w_rel)
+                      verbose: bool = True, loss_kw: Optional[Dict] = None) -> Dict:
+    """loss_kw (v3): {conf_target: recall|hit, rel_label: entity|proof, w_stop: float}."""
+    loss_kw = dict(loss_kw or {})
+    loss_fn = CGARLoss(w_conf=w_conf, w_rel=w_rel, **loss_kw)
+    need_proofs = loss_kw.get("rel_label") == "proof"
+    proof_cache: Dict[str, tuple] = {}
     opt = torch.optim.AdamW(controller.parameters(), lr=lr, weight_decay=0.01)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=max(epochs, 1))
     history, best_f1, best_state = [], -1.0, None
@@ -71,7 +100,12 @@ def train_cgar_stage1(controller: CGARController, gnn_train, train_qids: List[st
             selected, details = controller(q_emb, by_k, embedder, deterministic=True,
                                            return_details=True)
             actual_recall = len(path_entities(selected) & gold) / max(len(gold), 1)
-            losses = loss_fn(details, gold, by_k, actual_recall=actual_recall)
+            extra = {}
+            if need_proofs:
+                if qid not in proof_cache:
+                    proof_cache[qid] = proof_info(gnn_train, qid)
+                extra = dict(triple_set=proof_cache[qid][0], gold_proofs=proof_cache[qid][1])
+            losses = loss_fn(details, gold, by_k, actual_recall=actual_recall, **extra)
             opt.zero_grad()
             losses["total"].backward()
             torch.nn.utils.clip_grad_norm_(controller.parameters(), 1.0)
@@ -82,7 +116,7 @@ def train_cgar_stage1(controller: CGARController, gnn_train, train_qids: List[st
                       f"(C:{ep_conf/n:.3f} R:{ep_rel/n:.3f})")
         sched.step()
         rec = {"epoch": epoch + 1, "loss": ep_loss / max(n, 1), "conf_loss": ep_conf / max(n, 1),
-               "rel_loss": ep_rel / max(n, 1), "sec": time.time() - t0}
+               "rel_loss": ep_rel / max(n, 1), "sec": time.time() - t0, "loss_kw": loss_kw}
         if gnn_eval is not None and eval_qids:
             ev = _eval(controller, gnn_eval, eval_qids, embedder, max_paths_per_pair, device)
             rec.update({"eval_f1": ev["f1"], "eval_cov": ev["cov"], "eval_cost": ev["cost"],
