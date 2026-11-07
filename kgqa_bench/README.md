@@ -75,3 +75,18 @@ reader_unsupported_generation / reader_reasoning_failure / correct_ungrounded / 
 Reader prompt variant for the grounded-generation baseline: `--reader hf:<model>:grounded`
 (answer only from the paths, copy names verbatim, reply `unknown` when evidence is insufficient);
 `is_abstention()` recognises those answers so abstentions are not scored as hallucinations.
+
+## Confidence-gated escalation (Nov 2026) — `kgqa_bench/escalation.py`
+
+GNN-RAG+RA gains by *adding* evidence; CGAR only *removes* it (−2 pp F1 vs all at 41 % cost) but has
+the best AURC. `escalation.py` evaluates the two-tier policy "CGAR selection if confidence ≥ τ,
+else the fallback's paths" **offline** from two existing records files on the same qids (the
+fallback is a superset, so an escalated question is exactly the fallback's record). It sweeps τ over
+confidence quantiles, adds the `oracle` gate (upper bound) and same-qid top-K reference points,
+and reports operating points (match-fallback-quality, best-at-60 %-cost, knee). With reader
+records it also gives llm_hit / llm_f1 / unsupported / real prompt tokens per τ.
+
+```bash
+python -m kgqa_bench.escalation --results results_gnn/b06_main --dataset webqsp:test --primary cgar --fallback gnnrag_all --plot
+python -m kgqa_bench.escalation --results results_gnn/b08_reader_Qwen2.5-7B-Instruct --dataset webqsp:test --quality llm_hit
+```
