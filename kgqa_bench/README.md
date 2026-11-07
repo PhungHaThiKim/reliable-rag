@@ -38,3 +38,40 @@ metric definitions and the experiment plan.
 * `report.md` now states per dataset whether the pool is GNN-RAG-scored or heuristic
   (heuristic `gnnrag_topK` rows must be read as *heuristic-topK*; their ECE is meaningless) and
   adds an **Adaptivity** section (cost / chosen_k histogram) for cgar/prism.
+
+## Hallucination / groundedness evaluation (Nov 2026) — `kgqa_bench/hallucination.py`
+
+`llm_unsupported_rate` only checked whether an answered entity *appears somewhere* in the
+context, which (a) calls "Alice works at X, X is in London → born in London" supported and
+(b) flags aliases as hallucinated. The new module separates **faithfulness** (is each asserted
+entity entailed by the shown graph evidence?) from **correctness** (is it gold?) and runs offline
+on the `records_<dataset>_<method>.jsonl` of any `--reader` run:
+
+```bash
+python -m kgqa_bench.hallucination \
+    --results results_gnn/b08_reader_Qwen2.5-7B-Instruct \
+    --eval gnnrag:ckpt/gnn_features_webqsp_test.pkl:webqsp:test \
+    --methods gnnrag_all gnnrag_top5 sbert_top5 cgar --ref gnnrag_all \
+    --review-sample 200            # + optional: --judge hf:Qwen/Qwen2.5-7B-Instruct, --strict
+```
+
+Per asserted entity (claim), tier 1 is deterministic: `path_endpoint` (terminates a selected
+topic→entity path), `in_context_no_proof` (intermediate node only → UNSUPPORTED),
+`in_subgraph_only` (in the KG but not retrieved → UNSUPPORTED), `absent` (→ UNSUPPORTED).
+Tier 2 compares the path's *directed* relation sequence with the question's reference proofs
+(topic→gold relation sequences in the full subgraph; evaluation-only) → SUPPORTED, else
+UNCERTAIN (open world); an optional LLM judge can resolve UNCERTAIN into SUPPORTED/CONTRADICTED.
+
+Outputs in `<results>/hallucination/`: `hallucination.json` (metric groups A faithfulness —
+claim/question hallucination rate, proof-support, contradiction, uncertain; B correctness —
+grounded-correct rate, grounded answer F1, correct-but-ungrounded, abstention; C risk —
+hallucination and incorrect-answer risk–coverage ranked by retriever confidence, AURC), paired
+bootstrap + McNemar vs `--ref` on question-level labels, an error taxonomy per question
+(missing_kg_evidence / candidate_omission / path_selection_failure / wrong_relation_evidence /
+reader_unsupported_generation / reader_reasoning_failure / correct_ungrounded / abstained),
+`claims_*.jsonl` (per-claim detail), `report_*.md`, `risk_coverage_*.png` and
+`review_sample_*.csv` (disagreements first, then UNCERTAIN, then stratified) for human labelling.
+
+Reader prompt variant for the grounded-generation baseline: `--reader hf:<model>:grounded`
+(answer only from the paths, copy names verbatim, reply `unknown` when evidence is insufficient);
+`is_abstention()` recognises those answers so abstentions are not scored as hallucinations.

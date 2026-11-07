@@ -264,7 +264,7 @@ def build_parser():
     r.add_argument("--dev-split", type=float, default=0.1, help="fraction of TRAIN carved out for model selection (0 = none)")
     r.add_argument("--dev-from-first-eval", action="store_true", help="legacy notebook behaviour: select on the first eval split (reported in config)")
     r.add_argument("--dev-max", type=int, default=400)
-    r.add_argument("--reader", default="none", help="none | dummy | hf:<model>[:chat|llama2|general][:seq2seq]")
+    r.add_argument("--reader", default="none", help="none | dummy | hf:<model>[:chat|grounded|llama2|general][:seq2seq]  (grounded = strict answer-from-paths prompt with abstention)")
     r.add_argument("--no-retrieval-baseline", action="store_true")
     r.add_argument("--compare-ref", default="gnnrag_all")
     r.add_argument("--n-bootstrap", type=int, default=5000)

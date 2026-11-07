@@ -26,11 +26,17 @@ from prism.qa_text_eval import eval_f1, eval_hit, eval_hit1, extract_answer_enti
 SAQ_RULE_INSTRUCTION = ("Based on the reasoning paths, please answer the given question. "
                         "Please keep the answer as simple as possible and return all the "
                         "possible answers as a list.")
+GROUNDED_INSTRUCTION = ("Answer the question using ONLY the reasoning paths below. "
+                        "Return every entity that the paths support as a list, one per line, "
+                        "copying entity names exactly as they appear in the paths. "
+                        "If the paths do not contain enough evidence to answer, reply exactly: unknown.")
 PROMPT_TEMPLATES = {
     "llama2": "[INST] <<SYS>>\n<</SYS>>\n{instruction}\n\n{input} [/INST]",
     "general": "{instruction}\n\n{input}",
     "chat": "{instruction}\n\n{input}",      # wrapped by tokenizer.apply_chat_template
+    "grounded": "{instruction}\n\n{input}",  # chat-wrapped, GROUNDED_INSTRUCTION (strict answering + abstention)
 }
+CHAT_WRAPPED = ("chat", "grounded")
 
 
 def build_prompt(question: str, reasoning_paths: Sequence[str], model_type: str = "general",
@@ -38,18 +44,19 @@ def build_prompt(question: str, reasoning_paths: Sequence[str], model_type: str 
     if not question.endswith("?"):
         question += "?"
     template = PROMPT_TEMPLATES.get(model_type, PROMPT_TEMPLATES["general"])
+    instruction = GROUNDED_INSTRUCTION if model_type == "grounded" else SAQ_RULE_INSTRUCTION
     tokenize_fn = tokenize_fn or len
     question_part = f"Question:\n{question}"
     selected = []
     for p in reasoning_paths:
         cand = "\n".join(selected + [p])
-        test = template.format(instruction=SAQ_RULE_INSTRUCTION,
+        test = template.format(instruction=instruction,
                                input=f"Reasoning Paths:\n{cand}\n\n{question_part}")
         if tokenize_fn(test) > max_tokens:
             break
         selected.append(p)
     inp = f"Reasoning Paths:\n{chr(10).join(selected)}\n\n{question_part}" if selected else question_part
-    return template.format(instruction=SAQ_RULE_INSTRUCTION, input=inp)
+    return template.format(instruction=instruction, input=inp)
 
 
 class DummyReader:
@@ -85,7 +92,8 @@ class NoRetrievalReader:
 class HFReader:
     """Hugging Face reader. prompt_type: 'llama2' (raw [INST] template, as in
     the GNN-RAG paper), 'chat' (tokenizer chat template: Llama-3, Qwen,
-    Mistral-Instruct, gpt-oss), 'general' (seq2seq e.g. Flan-T5)."""
+    Mistral-Instruct, gpt-oss), 'grounded' (chat template + strict grounded
+    instruction with abstention), 'general' (seq2seq e.g. Flan-T5)."""
 
     def __init__(self, model_name: str, prompt_type: str = "chat", max_new_tokens: int = 256,
                  dtype: str = "bf16", max_context: int = 4096, seq2seq: bool = False):
@@ -113,7 +121,7 @@ class HFReader:
         import torch
         paths = [p for p in paths_text.split("\n") if p.strip()]
         prompt = build_prompt(question, paths, self.prompt_type, self.max_context - 64, self.tokenize)
-        if self.prompt_type == "chat":
+        if self.prompt_type in CHAT_WRAPPED:
             prompt = self.tok.apply_chat_template([{"role": "user", "content": prompt}],
                                                   tokenize=False, add_generation_prompt=True)
         enc = self.tok(prompt, return_tensors="pt", truncation=True, max_length=self.max_context).to(self.model.device)
@@ -125,7 +133,8 @@ class HFReader:
 
 
 def reader_from_spec(spec: str):
-    """'none' | 'dummy' | 'hf:<model>[:chat|llama2|general][:seq2seq]'"""
+    """'none' | 'dummy' | 'hf:<model>[:chat|grounded|llama2|general][:seq2seq]'
+    'grounded' = chat template + GROUNDED_INSTRUCTION (answer only from paths, 'unknown' allowed)."""
     if spec in ("none", "", None):
         return None
     if spec == "dummy":
