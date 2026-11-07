@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.bak
+tesst.txt
+results/
+results_gnn*/
+ckpt/
+outputs/
+*.pt
+*.pkl
+*.ckpt
+.DS_Store
