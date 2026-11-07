@@ -95,7 +95,7 @@ def summarize_records(records: List[Dict], n_bootstrap: int = 1000, seed: int = 
         out["answer_in_subgraph"] = float(np.mean(ais))
         out["cov_given_reachable"] = _mean([r["coverage"] for r in records if r.get("answer_in_subgraph")])
     # answer-level
-    for k in ("las_hit1", "llm_hit", "llm_f1", "llm_hit1", "llm_acc", "llm_unsupported_rate",
+    for k in ("las_hit1", "llm_hit", "llm_f1", "llm_hit1", "llm_acc", "llm_unsupported_rate", "llm_abstained",
               "n_tokens_prompt", "mean_step_kl", "n_steps"):
         vals = [r[k] for r in records if r.get(k) is not None]
         if vals:

@@ -122,3 +122,20 @@ prompt, claim label x evidence-type cross-tabs against the legacy proxy, worked 
 error taxonomy and per-qid CGAR-vs-all questions, risk-coverage curves, paired tests, chat vs
 grounded prompt, confidence-gated escalation at the hallucination level, optional LLM judge,
 human-review CSV loading with detector precision/recall and Cohen's kappa, and a final checklist.
+
+## Rescore reader outputs offline (`kgqa_bench.rescore`, Nov 2026)
+
+`records_*.jsonl` keep the raw `llm_pred`, so every `llm_*` metric can be recomputed without a GPU
+after a parser or abstention-rule change:
+
+```
+python -m kgqa_bench.rescore --results results_gnn/b08_reader_Qwen2.5-7B-Instruct results_gnn/b08g_reader_Qwen2.5-7B-Instruct
+```
+
+* abstentions (`unknown`, `cannot determine`, ...) become `llm_abstained=1`, hit/hit1/f1 = 0 and
+  `llm_unsupported_rate = 0` (the old proxy counted the literal string `unknown` as an unsupported entity,
+  which inflated unsupported_rate under the grounded prompt);
+* `llm_unsupported_rate` is now "fabricated entities among answered questions"; the old value is kept as
+  `llm_unsupported_rate_legacy`; originals are backed up once to `records_*.jsonl.orig`;
+* `results.json` summaries, paired comparisons (`llm_hit`, `llm_hit1`, `llm_f1` vs `--ref`) and `report.md` are rewritten.
+  P8 cell 08 calls it after every reader run, including `[skip]`ped dirs, so the Llama chat `llm_hit1` (old parser) is fixed in place.
