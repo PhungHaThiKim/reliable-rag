@@ -3,7 +3,6 @@ __pycache__/
 .ipynb_checkpoints/
 *.bak
 tesst.txt
-results/
 results_gnn*/
 ckpt/
 outputs/

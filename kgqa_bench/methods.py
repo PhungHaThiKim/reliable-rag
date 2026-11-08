@@ -6,15 +6,13 @@ Record keys produced here
 -------------------------
 qid, method, dataset, coverage, precision, f1, hit_ctx, cost, n_triples,
 n_tokens, latency_ms, selected_paths (texts), chosen_k, confidence,
-hops, n_gold, n_candidates, answer_in_subgraph, (PRISM only) las_hit1
+hops, n_gold, n_candidates, answer_in_subgraph, candidates
 
 Methods
 -------
 GNNRAGMethod(top_k=None)       GNN-RAG all paths / top-K by candidate score
-GraphRAGFIMethod(tau, k_keep)  GraphRAG-FI two-stage filter (re-impl)
 CGARMethod(controller, ...)    CGAR v2.1 controller (+ .fit() to train)
-PRISMMethod(las, vocab, ...)   PRISM LAS + batched information-theoretic controller
-RandomKMethod(k)               sanity baseline: random K paths
+CGAREscalateMethod(cgar, ...)  CGAR-G: CGAR budget K, escalate hard / low-confidence questions to all paths
 SBERTTopKMethod(embedder, k)   non-learned baseline: top-K paths by cosine(question, path) — isolates
                                the controller's contribution from the embedding's
 All path-dict baselines take `max_candidates` (default 20 = CGAR's reachable
@@ -30,8 +28,7 @@ from typing import Dict, List, Optional, Sequence
 import numpy as np
 import torch
 
-from .adapters import (PrismBuildConfig, PrismSampleDataset, PrismVocab,
-                       build_prism_samples, move_sample, to_gnn_features)
+from .adapters import to_gnn_features
 from .data import BenchDataset, BenchQuestion
 
 
@@ -69,10 +66,21 @@ def make_record(q: BenchQuestion, method: str, selected_triples, selected_texts:
         "hops": q.meta.get("hops"), "n_gold": len(q.answers),
         "n_candidates": len(q.top_candidates),
         "answer_in_subgraph": q.meta.get("answer_in_subgraph"),
+        # answer candidates = entities the selected paths lead to, in path order (CGAR-G reader prompt)
+        "candidates": _tails(selected_texts),
     }
     if extra:
         rec.update(extra)
     return rec
+
+
+def _tails(texts: List[str]) -> List[str]:
+    out = []
+    for t in texts:
+        parts = [x.strip() for x in str(t).split(" -> ")]
+        if len(parts) >= 3 and parts[-1] not in out:
+            out.append(parts[-1])
+    return out
 
 
 class Method:
@@ -92,7 +100,7 @@ class Method:
 
 
 # ─────────────────────────────────────────────────────────────────────
-# GNN-RAG (all / top-K)  and GraphRAG-FI  — path-dict based baselines
+# GNN-RAG (all / top-K) and SBERT top-K — path-dict based baselines
 # ─────────────────────────────────────────────────────────────────────
 
 class GNNRAGMethod(Method):
@@ -121,28 +129,6 @@ class GNNRAGMethod(Method):
         return recs
 
 
-class RandomKMethod(Method):
-    def __init__(self, k: int = 5, max_candidates: int = 20, max_paths_per_pair: int = 3, seed: int = 0):
-        self.k, self.max_candidates, self.max_paths_per_pair, self.seed = k, max_candidates, max_paths_per_pair, seed
-        self.name = f"random_k{k}"
-
-    def run(self, dataset, verbose=True):
-        import random
-        from grl_rag import extract_candidate_paths
-        rng = random.Random(self.seed)
-        gnn = to_gnn_features(dataset)
-        recs = []
-        for q in self._iter(dataset, verbose):
-            if not q.answers:
-                continue
-            t0 = time.perf_counter()
-            paths = extract_candidate_paths(q.qid, gnn, max_candidates=self.max_candidates,
-                                            max_paths_per_pair=self.max_paths_per_pair)
-            rng.shuffle(paths); paths = paths[: self.k]
-            dt = (time.perf_counter() - t0) * 1000
-            triples = [t for p in paths for t in p["path_triples"]]
-            recs.append(make_record(q, self.name, triples, [p["path_text"] for p in paths], len(paths), dt))
-        return recs
 
 
 class SBERTTopKMethod(Method):
@@ -181,29 +167,6 @@ class SBERTTopKMethod(Method):
         return recs
 
 
-class GraphRAGFIMethod(Method):
-    def __init__(self, tau_drop: float = 0.3, k_keep: int = 8, max_candidates: int = 20,
-                 max_paths_per_pair: int = 3):
-        self.kw = dict(tau_drop=tau_drop, k_keep=k_keep, max_candidates=max_candidates,
-                       max_paths_per_pair=max_paths_per_pair)
-        self.name = f"graphrag_fi_k{k_keep}"
-
-    def run(self, dataset, verbose=True):
-        from baseline_graphrag_fi import GraphRAGFIRetriever
-        gnn = to_gnn_features(dataset)
-        ret = GraphRAGFIRetriever(gnn, **self.kw)
-        recs = []
-        for q in self._iter(dataset, verbose):
-            if not q.answers:
-                continue
-            t0 = time.perf_counter()
-            r = ret.retrieve(q.qid)
-            dt = (time.perf_counter() - t0) * 1000
-            sel = r.get("selected_paths", [])
-            conf = max([p["gnn_score"] for p in sel], default=0.0)
-            recs.append(make_record(q, self.name, r["triples"], [p["path_text"] for p in sel],
-                                    r["cost"], dt, confidence=float(conf)))
-        return recs
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -295,145 +258,73 @@ class CGARMethod(Method):
         return recs
 
 
-# ─────────────────────────────────────────────────────────────────────
-# PRISM
-# ─────────────────────────────────────────────────────────────────────
+class CGAREscalateMethod(Method):
+    """CGAR-G retrieval (Nov 2026): CGAR with budget B, escalated per question.
 
-class PRISMMethod(Method):
-    """PRISM = LAS (answer simulator) + batched information-theoretic controller.
+    Run 3 showed that CGAR's whole loss vs GNN-RAG-all sits in questions with > 10
+    candidates (F1 20.7 vs 33.4 on 17% of WebQSP) while it matches or beats all on
+    the rest, and that gating on its confidence recovers all's F1 at 75% of the cost
+    (offline escalation analysis in the research repo). This method makes that policy a first-class retriever:
 
-    Samples are built from the BenchDataset with the SAME candidate ranking
-    and shortest paths CGAR sees (see adapters.build_prism_samples).
-    """
+        selection = CGAR(B)                          if n_candidates <= n_cand and conf >= tau
+                  = fallback                         otherwise
+        fallback  = 'all'      every path of the top-20 pool (= gnnrag_all's record)
+                  = 'budget:K' CGAR with max_paths K (same controller)
 
-    def __init__(self, embedder, vocab: Optional[PrismVocab] = None, las=None, cfg=None,
-                 build_cfg: Optional[PrismBuildConfig] = None, device: str = "cpu",
-                 name: str = "prism"):
-        from prism.config import CFG
-        self.embedder = embedder
-        self.cfg = cfg or CFG
-        self.cfg.device = device
-        self.device = device
-        self.vocab = vocab or PrismVocab()
-        self.build_cfg = build_cfg or PrismBuildConfig(n_candidates=self.cfg.n_candidates,
-                                                       max_paths=self.cfg.max_paths,
-                                                       max_path_len=self.cfg.max_path_len)
-        self.las = las
+    confidence stays CGAR's (so AURC / selective answering are unchanged), `escalated`
+    is stored per record, cost = paths actually sent to the reader."""
+
+    def __init__(self, cgar: "CGARMethod", n_cand: Optional[int] = 10, tau: Optional[float] = None,
+                 fallback: str = "all", max_candidates: int = 20, name: str = "cgar_esc"):
+        self.cgar, self.n_cand, self.tau, self.fallback = cgar, n_cand, tau, fallback
+        self.max_candidates = max_candidates
         self.name = name
-        self.train_info: Dict = {}
-        self._sample_cache: Dict[str, List] = {}
+        if not (fallback == "all" or fallback.startswith("budget:")):
+            raise ValueError("fallback must be 'all' or 'budget:K'")
 
-    def samples_for(self, dataset: BenchDataset, force_gold: bool = False) -> List:
-        key = f"{dataset.key}|n={len(dataset)}|id={id(dataset)}|gold={force_gold}"
-        if key not in self._sample_cache:
-            bc = PrismBuildConfig(**{**self.build_cfg.__dict__, "force_gold_in_candidates": force_gold})
-            self._sample_cache[key] = build_prism_samples(dataset, self.vocab, self.embedder, bc)
-        return self._sample_cache[key]
+    def should_escalate(self, n_candidates: int, confidence: Optional[float]) -> bool:
+        if self.n_cand is not None and n_candidates > self.n_cand:
+            return True
+        return self.tau is not None and confidence is not None and confidence < self.tau
 
-    def _ensure_las(self):
-        if self.las is None:
-            from prism.las import LAS
-            self.cfg.n_relations = max(self.cfg.n_relations, len(self.vocab) + 8)
-            self.cfg.d_query = int(self.embedder.emb_dim)
-            self.las = LAS(self.cfg).to(self.device)
-        return self.las
-
-    # --- training --------------------------------------------------------
-    def fit(self, train_ds: BenchDataset, eval_ds: Optional[BenchDataset] = None,
-            distill_epochs: Optional[int] = None, rl_steps: Optional[int] = None,
-            teacher=None, rl_mode: str = "calib_shaped", entropy_coef: float = 0.02,
-            force_gold_train: bool = True, ckpt_dir: Optional[str] = None,
-            seed: int = 42, verbose: bool = True) -> Dict:
-        """Stage 1 distillation (+ Stage 2 RL). `teacher`: CachedTeacherLLM
-        (real LLM logits) — if None the ORACLE teacher built into the samples
-        is used; the summary records which one, because the paper must say
-        "oracle-supervised" vs "LLM-distilled"."""
-        import prism.distill as distill_mod
-        from prism.distill import train_distill
-        from prism.improvements import train_rl_improved
-        from .cgar_train import set_seed
-        set_seed(seed)
-        if self.vocab is None or len(self.vocab) <= 2:
-            self.vocab = PrismVocab().fit(train_ds)
-        las = self._ensure_las()
-        if distill_epochs is not None: self.cfg.distill_epochs = distill_epochs
-        if rl_steps is not None: self.cfg.rl_steps = rl_steps
-        if ckpt_dir: self.cfg.out_dir = ckpt_dir
-        tr = PrismSampleDataset(self.samples_for(train_ds, force_gold=force_gold_train), "train")
-        ev = PrismSampleDataset(self.samples_for(eval_ds, force_gold=False), "eval") if eval_ds is not None \
-            else PrismSampleDataset(tr.samples[: max(8, len(tr) // 10)], "eval")
-        orig_teacher = distill_mod.TeacherLLM
-        teacher_name = "oracle_heuristic"
-        if teacher is not None:
-            distill_mod.TeacherLLM = lambda: teacher
-            teacher_name = type(teacher).__name__
-        try:
-            ck1 = train_distill(las, tr, ev, self.cfg)
-        finally:
-            distill_mod.TeacherLLM = orig_teacher
-        las.load_state_dict(torch.load(ck1, map_location="cpu"))
-        info = {"teacher": teacher_name, "distill_ckpt": ck1, "seed": seed, "vocab": len(self.vocab)}
-        if self.cfg.rl_steps > 0:
-            ck2 = train_rl_improved(las, tr, ev, cfg=self.cfg, reward_mode=rl_mode, entropy_coef=entropy_coef,
-                                    use_batched=True, eval_every=max(10, self.cfg.rl_eval_every),
-                                    log_every=25, eval_max_items=200)
-            las.load_state_dict(torch.load(ck2, map_location="cpu"))
-            info["rl_ckpt"] = ck2
-            info["rl_history"] = getattr(train_rl_improved, "last_history", [])
-        self.train_info = info
-        return info
-
-    def load(self, path: str, vocab_path: Optional[str] = None):
-        import json
-        if vocab_path:
-            with open(vocab_path) as f:
-                self.vocab = PrismVocab.from_state_dict(json.load(f))
-        las = self._ensure_las()
-        las.load_state_dict(torch.load(path, map_location="cpu"))
-        las.to(self.device)
-        return self
-
-    def save(self, path: str):
-        import json
-        os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
-        torch.save(self._ensure_las().state_dict(), path)
-        with open(path + ".vocab.json", "w") as f:
-            json.dump(self.vocab.state_dict(), f)
-
-    # --- inference -------------------------------------------------------
     def run(self, dataset, verbose=True):
-        from prism.controller_batched import deterministic_select
-        las = self._ensure_las(); las.eval()
-        samples = self.samples_for(dataset, force_gold=False)
-        by_qid = {q.qid: q for q in dataset}
+        from adagraph_cgar_v2 import CGARRetriever
+        from grl_rag import extract_candidate_paths
+        gnn = to_gnn_features(dataset)
+        ctrl = self.cgar.controller
+        ret = CGARRetriever(gnn, ctrl, self.cgar.embedder,
+                            max_paths_per_pair=self.cgar.max_paths_per_pair, device=self.cgar.device)
+        ctrl.eval()
+        base_budget = ctrl.max_paths
         recs = []
-        it = samples
-        if verbose:
-            try:
-                from tqdm import tqdm; it = tqdm(samples, desc=self.name, leave=False)
-            except ImportError:
-                pass
-        for s in it:
-            q = by_qid[s.qid]
+        for q in self._iter(dataset, verbose):
             if not q.answers:
                 continue
-            move_sample(s, self.device)
             t0 = time.perf_counter()
             with torch.no_grad():
-                trace = deterministic_select(las, s, self.cfg)
+                r = ret.retrieve(q.qid, deterministic=True, return_details=True)
+            det = r.get("details") or {}
+            conf = det.get("final_confidence")
+            conf = float(conf.item()) if conf is not None else None
+            sel = r["selected_paths"]
+            esc = self.should_escalate(len(q.top_candidates), conf)
+            if esc:
+                if self.fallback == "all":
+                    sel = extract_candidate_paths(q.qid, gnn, max_candidates=self.max_candidates,
+                                                  max_paths_per_pair=self.cgar.max_paths_per_pair)
+                else:
+                    ctrl.max_paths = int(self.fallback.split(":")[1])
+                    try:
+                        with torch.no_grad():
+                            sel = ret.retrieve(q.qid, deterministic=True)["selected_paths"]
+                    finally:
+                        ctrl.max_paths = base_budget
             dt = (time.perf_counter() - t0) * 1000
-            sel = trace.selected_path_idx
-            triples = [t for i in sel for t in s.path_triples[i]]
-            texts = [s.path_texts[i] for i in sel]
-            top1 = int(trace.final_probs.argmax().item())
-            las_hit1 = int(s.candidate_names[top1] in set(q.answers))
-            recs.append(make_record(q, self.name, triples, texts, len(sel), dt,
-                                    confidence=float(trace.confidence.item()),
-                                    chosen_k=int(trace.chosen_K),
-                                    extra={"las_hit1": las_hit1, "stopped_reason": trace.stopped_reason,
-                                           "n_total_paths": int(s.paths.size(0)),
-                                           "n_steps": len(trace.step_kl),
-                                           "mean_step_kl": float(np.mean(trace.step_kl)) if trace.step_kl else 0.0}))
+            triples = [t for p in sel for t in p["path_triples"]]
+            recs.append(make_record(q, self.name, triples, [p["path_text"] for p in sel], len(sel), dt,
+                                    confidence=conf, chosen_k=int(det.get("chosen_k", 0) or 0),
+                                    extra={"n_total_paths": r.get("n_total_paths", 0), "escalated": int(esc),
+                                           "cost_primary": len(r["selected_paths"])}))
         return recs
 
 
@@ -451,11 +342,6 @@ def baseline_from_name(name: str, max_candidates: Optional[int] = None, embedder
         return GNNRAGMethod(None, **kw)
     if name.startswith("gnnrag_top"):
         return GNNRAGMethod(int(name[len("gnnrag_top"):]), **kw)
-    if name.startswith("graphrag_fi"):
-        k = int(name.split("_k")[1]) if "_k" in name else 8
-        return GraphRAGFIMethod(k_keep=k, **kw)
-    if name.startswith("random_k"):
-        return RandomKMethod(int(name[len("random_k"):]), **kw)
     if name.startswith("sbert_top"):
         if embedder is None:
             raise ValueError("sbert_topK needs an embedder")

@@ -1,6 +1,6 @@
 """Tests for kgqa_bench.hallucination (CPU, synthetic data, no LLM).
 
-Run:  cd colab/graph_rag && python -m pytest -q tests/test_hallucination.py
+Run:  cd seminar2_kgrag && python -m pytest -q tests/test_hallucination.py
 """
 import json
 import os

@@ -28,10 +28,9 @@ from typing import Dict, List, Optional, Sequence
 
 import numpy as np
 
-from prism.metrics import expected_calibration_error, brier_score
-from prism.metrics_full import (adaptive_ece, maximum_calibration_error,
-                                negative_log_likelihood, area_under_risk_coverage,
-                                selective_accuracy_at_coverage, bootstrap_ci)
+from calibration import (expected_calibration_error, brier_score, adaptive_ece, maximum_calibration_error,
+                         negative_log_likelihood, area_under_risk_coverage,
+                         selective_accuracy_at_coverage, bootstrap_ci)
 from significance import paired_bootstrap, mcnemar
 
 
@@ -96,6 +95,7 @@ def summarize_records(records: List[Dict], n_bootstrap: int = 1000, seed: int = 
         out["cov_given_reachable"] = _mean([r["coverage"] for r in records if r.get("answer_in_subgraph")])
     # answer-level
     for k in ("las_hit1", "llm_hit", "llm_f1", "llm_hit1", "llm_acc", "llm_unsupported_rate", "llm_abstained",
+              "llm_n_dropped", "llm_fallback", "llm_grounded", "escalated", "cost_primary",
               "n_tokens_prompt", "mean_step_kl", "n_steps"):
         vals = [r[k] for r in records if r.get(k) is not None]
         if vals:

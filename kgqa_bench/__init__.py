@@ -1,48 +1,32 @@
-"""kgqa_bench — one harness to run CGAR, PRISM and the baselines on ANY KGQA
-dataset with ONE metric suite.
+"""kgqa_bench: one harness to run the GraphRAG retrievers (GNN-RAG all / top-K,
+SBERT top-K, CGAR, CGAR-G) and an LLM reader on a KGQA dataset with ONE metric
+suite, plus a graph-grounded hallucination verifier.
 
-Why this exists
----------------
-Before this package the two methods lived in different worlds:
-  * CGAR consumed GNN-RAG feature pickles (text triples + SBERT) inside a
-    notebook, and its metrics (coverage-F1, cost) lived in notebook cells;
-  * PRISM consumed relation-ID tensors from `prism.data.RoGDataset` and
-    reported LAS-internal Hit@1 / ECE from `prism.experiments`.
-Numbers from the two pipelines were therefore computed on different
-candidate pools, different path sets and different metric definitions and
-could not be put in the same table.
-
-`kgqa_bench` fixes that:
-
-    BenchDataset  (dataset-agnostic question records)
-        ├── adapters.to_gnn_features(ds)      → CGAR / GNN-RAG / GraphRAG-FI
-        └── adapters.build_prism_samples(ds)  → PRISM
-    methods.*                                 → per-question `records`
-    metrics.summarize_records(records)        → one metric dict per (dataset, method)
-    report.*                                  → markdown / LaTeX tables + Pareto
-
-Supported dataset sources (see `data.py`):
-    - GNN-RAG feature pickles       (`gnn_features_<name>_<split>.pkl`)
-    - RoG Hugging Face datasets     (`rmanluo/RoG-webqsp`, `rmanluo/RoG-cwq`, ...)
-    - generic JSONL                 ({id, question, q_entity, a_entity, graph})
-    - synthetic                     (tests / CPU smoke runs)
+    BenchDataset  (dataset-agnostic question records, data.py)
+        -> adapters.to_gnn_features(ds)       shared candidate ranking + shortest paths
+    methods.*                                 per-question `records`
+    llm_reader.attach_llm_answers             LLM answers (+ candidate prompt, answer grounding)
+    metrics.summarize_records(records)        one metric dict per (dataset, method)
+    hallucination.run                         claim-level SUPPORTED / UNSUPPORTED / UNCERTAIN
+    rescore.rescore_dir                       offline re-scoring (parser, verify) without GPU
+    reader_ft                                 LoRA fine-tuning of the reader
 
 Quick start (Colab, see `cli.py --help` for all flags):
 
     python -m kgqa_bench.cli run \
-        --train rog:rmanluo/RoG-webqsp:train \
-        --eval  rog:rmanluo/RoG-webqsp:test rog:rmanluo/RoG-cwq:test \
-        --methods gnnrag_all gnnrag_top10 graphrag_fi cgar prism \
-        --out results/bench_v1
-    python -m kgqa_bench.cli report --results results/bench_v1
+        --train gnnrag:ckpt/gnn_features_train.pkl:webqsp:train \
+        --eval  gnnrag:ckpt/gnn_features_webqsp_test.pkl:webqsp:test \
+        --methods gnnrag_all gnnrag_top5 sbert_top5 cgar cgar_esc \
+        --reader hf:Qwen/Qwen2.5-7B-Instruct:cand --reader-verify --out results/demo
+    python -m kgqa_bench.cli report --results results/demo
 """
 from __future__ import annotations
 
 import os
 import sys
 
-# Make the sibling top-level modules (grl_rag, adagraph_cgar_v2,
-# baseline_graphrag_fi, significance, prism) importable regardless of cwd.
+# Make the sibling top-level modules (grl_rag, adagraph_cgar_v2, significance,
+# qa_text_eval, calibration) importable regardless of cwd.
 _GRAPH_RAG_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _GRAPH_RAG_DIR not in sys.path:
     sys.path.insert(0, _GRAPH_RAG_DIR)

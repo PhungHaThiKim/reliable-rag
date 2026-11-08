@@ -141,7 +141,7 @@ def reliability_plot(records_by_method: Dict[str, List[Dict]], out_path: str, n_
         import numpy as np
     except ImportError:
         return None
-    from prism.metrics import reliability_diagram, expected_calibration_error
+    from calibration import reliability_diagram, expected_calibration_error
     ms = [(m, r) for m, r in records_by_method.items() if r and all(x.get("confidence") is not None for x in r)]
     if not ms:
         return None

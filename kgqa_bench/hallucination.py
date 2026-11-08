@@ -62,7 +62,7 @@ from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
-from prism.qa_text_eval import extract_answer_entities, match, normalize
+from qa_text_eval import ABSTAIN_RE, match, normalize, split_answer
 from significance import mcnemar, paired_bootstrap
 
 from .data import BenchDataset, BenchQuestion, build_adjacency, shortest_relation_paths
@@ -70,10 +70,7 @@ from .data import BenchDataset, BenchQuestion, build_adjacency, shortest_relatio
 SUPPORTED, UNSUPPORTED, CONTRADICTED, UNCERTAIN = "SUPPORTED", "UNSUPPORTED", "CONTRADICTED", "UNCERTAIN"
 LABELS = (SUPPORTED, UNSUPPORTED, CONTRADICTED, UNCERTAIN)
 
-_ABSTAIN_RE = re.compile(
-    r"\b(unknown|not enough information|insufficient (information|evidence)|cannot (be )?(determine|answer)"
-    r"|can ?not (determine|answer)|no (sufficient |relevant )?(information|evidence)|unable to (determine|answer)"
-    r"|does not (contain|provide)|not (provided|mentioned|available))\b", re.I)
+_ABSTAIN_RE = ABSTAIN_RE   # shared with the answer parser (qa_text_eval)
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -229,8 +226,8 @@ def verify_question(q: BenchQuestion, record: Dict, judge: Optional[Callable] = 
             endpoints[p[-1][2]].append((i, _directed_relation_sequence(p, triple_set)))
 
     ctx_index, sub_index = EntityIndex(sorted(ctx_entities)), EntityIndex(sorted(sub_entities))
-    raw_claims = [c for c in dict.fromkeys(x.strip() for x in extract_answer_entities(pred)) if c]
-    abstained = is_abstention(pred) and not any(ctx_index.resolve(c) for c in raw_claims)
+    ents, abstained = split_answer(pred)      # same parser + abstention rule as llm_reader / rescore
+    raw_claims = [c for c in dict.fromkeys(x.strip() for x in ents) if c]
     claims: List[Dict] = []
     if not abstained:
         for c in raw_claims:
@@ -294,7 +291,8 @@ def verify_question(q: BenchQuestion, record: Dict, judge: Optional[Callable] = 
         "answer_in_subgraph": int(any(a in sub_entities for a in gold)),
         "answer_in_pool": int(any(a in set(q.top_candidates) for a in gold)),
         "has_reference_proof": int(bool(gold_seqs)),
-        "claims": claims, "llm_pred": pred,
+        "claims": claims, "llm_pred": pred, "llm_pred_raw": record.get("llm_pred_raw"),
+        "llm_fallback": record.get("llm_fallback"), "llm_n_dropped": record.get("llm_n_dropped"),
     }
     v["error_category"] = error_category(v)
     return v

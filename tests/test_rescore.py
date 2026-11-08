@@ -1,6 +1,6 @@
 """Tests for kgqa_bench.rescore (CPU, synthetic, dummy reader).
 
-Run:  cd colab/graph_rag && python -m pytest -q tests/test_rescore.py
+Run:  cd seminar2_kgrag && python -m pytest -q tests/test_rescore.py
 """
 import json
 import os
@@ -22,13 +22,13 @@ def test_rescore_dir_abstention_and_parser():
         assert os.path.exists(p), os.listdir(d)
         recs = [json.loads(l) for l in open(p)]
         # 1) an abstention: legacy proxy scored "unknown" as unsupported, rescore must not
-        recs[0]["llm_pred"] = "unknown"; recs[0]["llm_unsupported_rate"] = 1.0; recs[0]["llm_hit"] = 0
+        recs[0]["llm_pred"] = recs[0]["llm_pred_raw"] = "unknown"; recs[0]["llm_unsupported_rate"] = 1.0; recs[0]["llm_hit"] = 0
         # 2) a markdown-wrapped gold answer that the old parser mangled
         gold = None
         for r in recs[1:]:
             tails = [t.split("->")[-1].strip() for t in r["selected_paths"] if "->" in t]
             if tails:
-                gold = tails[0]; r["llm_pred"] = f"The answer is:\n1. **{gold}**"; r["llm_hit1"] = 0; break
+                gold = tails[0]; r["llm_pred"] = r["llm_pred_raw"] = f"The answer is:\n1. **{gold}**"; r["llm_hit1"] = 0; break
         assert gold is not None
         with open(p, "w") as f:
             for r in recs:
