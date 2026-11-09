@@ -5,11 +5,8 @@ Một hệ thống, một base LLM, hai bài toán nối nhau:
 - **Task B, hỏi đáp supply chain** trên một công ty tổng hợp: 4 nhóm câu hỏi (hiểu mã, chính sách/ADR, tác động dependency nhiều bước,
   thiếu bằng chứng). **Mọi method trả lời cùng một bộ câu hỏi** có đáp án và bằng chứng chuẩn; không thiết kế để mỗi method thắng một nhóm.
 
-Code hiện thực [Technical_Implementation_Plan_PyPI_Malware_RAG.md](../Technical_Implementation_Plan_PyPI_Malware_RAG.md) và
-[PyPI_Malware_LLM_RAG_KGRAG_Test_Cases.md](../PyPI_Malware_LLM_RAG_KGRAG_Test_Cases.md).
 Paper tham chiếu: *Detecting Malicious Source Code in PyPI Packages with LLMs: Does RAG Come in Handy?* ([mal-LLM](https://github.com/malexternalsc/mal-LLM)).
-Tri thức hành vi lấy từ [PyGuard](https://github.com/lxyeternal/PyGuard). Cấu trúc theo folder `graph_rag`: package harness, CLI, notebook Colab
-có bước bỏ qua khi đã có kết quả, gate PASS/FAIL, test CPU.
+Tri thức hành vi lấy từ [PyGuard](https://github.com/lxyeternal/PyGuard).
 
 **Trạng thái.** Code, 39 test và 5 notebook đã xong. Lần chạy thật đầu tiên: 2026-11-10 trên 3 pod RunPod một GPU, 2 reader
 (Llama-3.1-8B-Instruct, Qwen2.5-Coder-7B-Instruct). Kết quả tổng hợp ở `results/cloud/` (chỉ `results.json`, `report.md`, notebook 00/01/04;
