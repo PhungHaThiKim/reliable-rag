@@ -1,0 +1,7 @@
+# cli build-graph / run (E3, E3a)
+graph:
+  max_hops: 3
+  max_paths: 6
+  pyguard_min_count: 3     # min PyGuard votes before an API -> behavior rule is added
+# Fixed by design (not flags): every edge stores source_file, line_start, line_end, extractor,
+# confidence, evidence_status; FLOWS_TO only from AST def-use / nesting.

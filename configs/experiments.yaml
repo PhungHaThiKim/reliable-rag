@@ -1,0 +1,10 @@
+# cli run: same budgets for every method (plan 6.2)
+experiment:
+  seed: 42
+  split: test
+  methods: [e0, e1, e2, e2_bm25, e2_rerank, e3, e3a, e4, e4_filter, e4_cite]
+  code_tokens: 3000        # shared package block (all methods)
+  evidence_tokens: 1500    # added evidence (E1..E4); E0 gets none
+  compare_ref: e0
+  n_bootstrap: 1000
+  strata_key: difficulty

@@ -1,19 +1,18 @@
-# Lõi (CPU đủ cho test, verifier, rescore, notebook demo 03)
-torch>=2.0
+# Core (CPU is enough for tests, smoke runs, verification, rescoring, notebook 02/03)
 numpy>=1.24
-pandas>=2.0
 networkx>=3.0
+pandas>=2.0
 matplotlib>=3.7
-tqdm>=4.65
+pyyaml>=6.0
 pytest>=7
 
-# Retriever và reader (Colab GPU)
+# Retrieval and readers (Colab GPU)
 sentence-transformers>=2.2
-transformers>=4.40
+transformers>=4.43
 accelerate>=0.30
+torch>=2.1
 
-# Chỉ cho reader LoRA (notebook 01, cell 08d). Trên Colab: gỡ torchao cũ, cell 08d tự làm.
-peft>=0.10
-
-# Chỉ khi dùng spec rog:... (CWQ không có GNN features)
-datasets>=2.14
+# Optional
+# peft>=0.10        # --adapter (LoRA reader)
+# openai>=1.30      # --llm openai:<model> (OpenAI or a vLLM server)
+# requests          # knowledge.external.fetch_advisories

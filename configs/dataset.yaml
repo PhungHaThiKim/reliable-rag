@@ -1,0 +1,6 @@
+# cli prepare  (keys = flag names; section names are only for reading)
+split:
+  strategy: grouped        # grouped | time | upstream (keep mal-LLM's locked test set)
+  ratios: [0.7, 0.15, 0.15]
+  near_dup: 0.9            # MinHash Jaccard for near-duplicate grouping, 0 = off
+  seed: 42

@@ -1,0 +1,13 @@
+# cli build-kb / run
+knowledge:
+  sources: [builtin, examples, pyguard]   # + yara, advisories, malllm_code
+  max_examples_per_label: 1500
+retrieval:
+  embedder: BAAI/bge-small-en-v1.5        # hash = CPU tests only
+  reranker: BAAI/bge-reranker-base        # only used by e2_rerank
+  vector_k: 10
+  bm25_k: 10
+  final_k: 5
+  rrf_k: 60
+  max_per_source: 3
+  n_queries: 4

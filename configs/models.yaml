@@ -1,0 +1,6 @@
+# cli run. Decoding is greedy (temperature 0) for every method; not configurable on purpose.
+model:
+  llm: hf:Qwen/Qwen2.5-Coder-7B-Instruct   # second reader: hf:NousResearch/Meta-Llama-3.1-8B-Instruct
+  max_new_tokens: 512
+  max_input_tokens: 8192
+  batch_size: 8

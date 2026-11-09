@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pypi_malware_rag"
+version = "0.1.0"
+description = "LLM-only vs Simple RAG vs Hybrid RAG vs Behavioral KG-RAG (+ evidence verification) for malicious PyPI package detection"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "networkx>=3.0", "pandas>=2.0", "matplotlib>=3.7", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+gpu = ["sentence-transformers>=2.2", "transformers>=4.43", "accelerate>=0.30", "torch>=2.1"]
+dev = ["pytest>=7"]
+api = ["openai>=1.30", "requests"]
+
+[project.scripts]
+pypi-rag = "pypi_rag.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pypi_rag*"]
