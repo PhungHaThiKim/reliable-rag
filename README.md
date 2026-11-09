@@ -12,7 +12,7 @@ Tri thức hành vi lấy từ [PyGuard](https://github.com/lxyeternal/PyGuard).
 (Llama-3.1-8B-Instruct, Qwen2.5-Coder-7B-Instruct). Kết quả tổng hợp ở `results/cloud/` (chỉ `results.json`, `report.md`, notebook 00/01/04;
 dữ liệu và dự đoán Task A chứa mã độc ở lại pod), đồ thị ở `results/figures/`, đọc kết quả ở [docs/PRESENTATION_FLOW.md](docs/PRESENTATION_FLOW.md).
 
-**Đo được trong lần chạy 2026-11-10** (thay cho mọi ước lượng cũ):
+**Đo được trong lần chạy 2026-11-02** (thay cho mọi ước lượng cũ):
 
 | Pod | GPU | Việc | Thời gian chạy | GPU giây sinh (đo) |
 |---|---|---|---|---|
