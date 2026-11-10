@@ -1,0 +1,8 @@
+{
+  "n": 310,
+  "edges_mean": 99.36129032258064,
+  "paths_mean": 1.6580645161290322,
+  "missing_provenance_edges": 0,
+  "pattern_hit_rate_malicious": 0.8589743589743589,
+  "pattern_hit_rate_benign": 0.06493506493506493
+}

@@ -1,0 +1,910 @@
+[launch] start Mon Nov  9 18:54:44 UTC 2026 datasets=all extras=1
+Requirement already satisfied: pip in /usr/local/lib/python3.12/dist-packages (25.2)
+Collecting pip
+  Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
+Downloading pip-26.3-py3-none-any.whl (2.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 188.8 MB/s  0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 25.2
+    Uninstalling pip-25.2:
+      Successfully uninstalled pip-25.2
+Successfully installed pip-26.3
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting vllm
+  Downloading vllm-0.33.0-cp38-abi3-manylinux_2_28_x86_64.whl.metadata (11 kB)
+Collecting regex (from vllm)
+  Downloading regex-2026.11.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+Collecting cachetools (from vllm)
+  Downloading cachetools-8.0.0-py3-none-any.whl.metadata (5.6 kB)
+Requirement already satisfied: psutil in /usr/local/lib/python3.12/dist-packages (from vllm) (7.1.0)
+Collecting sentencepiece (from vllm)
+  Downloading sentencepiece-0.2.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (34 kB)
+Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (from vllm) (2.1.2)
+Collecting requests>=2.33.0 (from vllm)
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting certifi>=2026.10.19 (from vllm)
+  Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Collecting tqdm (from vllm)
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting blake3 (from vllm)
+  Downloading blake3-1.0.11-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Collecting py-cpuinfo (from vllm)
+  Downloading py_cpuinfo-9.0.0-py3-none-any.whl.metadata (794 bytes)
+Collecting transformers<5.21.0,>=5.16.1 (from vllm)
+  Downloading transformers-5.20.2-py3-none-any.whl.metadata (31 kB)
+Collecting huggingface_hub>=1.31.0 (from vllm)
+  Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+Collecting tokenizers>=0.23.2 (from vllm)
+  Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.8 kB)
+Collecting safetensors>=0.6.2 (from vllm)
+  Downloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+Collecting protobuf!=6.30.*,!=6.31.*,!=6.32.*,!=6.33.0.*,!=6.33.1.*,!=6.33.2.*,!=6.33.3.*,!=6.33.4.*,>=5.29.6 (from vllm)
+  Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+Collecting fastapi<0.137.0,>=0.133.0 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+Collecting starlette>=1.0.1 (from vllm)
+  Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting aiohttp>=3.14.4 (from vllm)
+  Downloading aiohttp-3.14.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.3 kB)
+Collecting multidict>=6.9.1 (from vllm)
+  Downloading multidict-7.2.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (6.1 kB)
+Collecting openai>=2.25.0 (from vllm)
+  Downloading openai-3.48.0-py3-none-any.whl.metadata (45 kB)
+Collecting pydantic>=2.12.0 (from vllm)
+  Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+Collecting orjson>=3.11.6 (from vllm)
+  Downloading orjson-3.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (42 kB)
+Requirement already satisfied: prometheus_client>=0.18.0 in /usr/local/lib/python3.12/dist-packages (from vllm) (0.23.1)
+Collecting pillow>=13.0.0 (from vllm)
+  Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+Collecting prometheus-fastapi-instrumentator>=8.0.0 (from vllm)
+  Downloading prometheus_fastapi_instrumentator-8.1.0-py3-none-any.whl.metadata (13 kB)
+Collecting tiktoken>=0.6.0 (from vllm)
+  Downloading tiktoken-0.14.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.7 kB)
+Collecting lm-format-enforcer==0.11.3 (from vllm)
+  Downloading lm_format_enforcer-0.11.3-py3-none-any.whl.metadata (17 kB)
+Collecting llguidance<1.8.0,>=1.7.0 (from vllm)
+  Downloading llguidance-1.7.6-cp39-abi3-manylinux_2_31_x86_64.whl.metadata (10 kB)
+Collecting outlines_core==0.2.14 (from vllm)
+  Downloading outlines_core-0.2.14-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.6 kB)
+Collecting lark==1.2.2 (from vllm)
+  Downloading lark-1.2.2-py3-none-any.whl.metadata (1.8 kB)
+Collecting xgrammar==0.2.8 (from vllm)
+  Downloading xgrammar-0.2.8-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (10 kB)
+Requirement already satisfied: typing_extensions>=4.10 in /usr/local/lib/python3.12/dist-packages (from vllm) (4.15.0)
+Collecting filelock>=3.20.3 (from vllm)
+  Downloading filelock-4.2.9-py3-none-any.whl.metadata (2.3 kB)
+Collecting partial-json-parser (from vllm)
+  Downloading partial_json_parser-0.2.1.1.post7-py3-none-any.whl.metadata (6.1 kB)
+Requirement already satisfied: jsonschema>=4.23.0 in /usr/local/lib/python3.12/dist-packages (from vllm) (4.25.1)
+Requirement already satisfied: pyzmq>=25.0.0 in /usr/local/lib/python3.12/dist-packages (from vllm) (27.1.0)
+Collecting msgspec (from vllm)
+  Downloading msgspec-0.22.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (6.0 kB)
+Collecting mistral_common>=1.11.6 (from mistral_common[image]>=1.11.6->vllm)
+  Downloading mistral_common-1.13.1-py3-none-any.whl.metadata (5.9 kB)
+Collecting opencv-python-headless>=4.13.0 (from vllm)
+  Downloading opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.12/dist-packages (from vllm) (6.0.3)
+Requirement already satisfied: six>=1.16.0 in /usr/lib/python3/dist-packages (from vllm) (1.16.0)
+Requirement already satisfied: setuptools<81.0.0,>=78.1.1 in /usr/local/lib/python3.12/dist-packages (from vllm) (80.9.0)
+Collecting einops (from vllm)
+  Downloading einops-0.8.2-py3-none-any.whl.metadata (13 kB)
+Collecting compressed-tensors==0.17.0 (from vllm)
+  Downloading compressed_tensors-0.17.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting depyf==0.20.0 (from vllm)
+  Downloading depyf-0.20.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting cloudpickle (from vllm)
+  Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+Collecting watchfiles (from vllm)
+  Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Requirement already satisfied: python-json-logger in /usr/local/lib/python3.12/dist-packages (from vllm) (4.0.0)
+Collecting ninja (from vllm)
+  Downloading ninja-1.13.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.4 kB)
+Collecting pybase64 (from vllm)
+  Downloading pybase64-1.5.1-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (11 kB)
+Collecting cbor2 (from vllm)
+  Downloading cbor2-6.2.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.6 kB)
+Collecting ijson (from vllm)
+  Downloading ijson-3.6.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (23 kB)
+Collecting setproctitle (from vllm)
+  Downloading setproctitle-1.3.8-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (10 kB)
+Collecting oss-harmony>=0.0.11 (from vllm)
+  Downloading oss_harmony-0.0.12-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.4 kB)
+Collecting anthropic>=0.71.0 (from vllm)
+  Downloading anthropic-2.7.0-py3-none-any.whl.metadata (3.6 kB)
+Collecting model-hosting-container-standards<1.0.0,>=0.1.14 (from vllm)
+  Downloading model_hosting_container_standards-0.1.16-py3-none-any.whl.metadata (24 kB)
+Collecting mcp<3.0.0,>=2.2.0 (from vllm)
+  Downloading mcp-2.3.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting opentelemetry-sdk>=1.27.0 (from vllm)
+  Downloading opentelemetry_sdk-1.45.2-py3-none-any.whl.metadata (1.6 kB)
+Collecting opentelemetry-api>=1.27.0 (from vllm)
+  Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+Collecting opentelemetry-exporter-otlp>=1.27.0 (from vllm)
+  Downloading opentelemetry_exporter_otlp-1.45.2-py3-none-any.whl.metadata (2.4 kB)
+Collecting opentelemetry-semantic-conventions-ai>=0.4.1 (from vllm)
+  Downloading opentelemetry_semantic_conventions_ai-0.5.1-py3-none-any.whl.metadata (997 bytes)
+Collecting numba==0.65.0 (from vllm)
+  Downloading numba-0.65.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.9 kB)
+Collecting torch==2.14.0 (from vllm)
+  Downloading torch-2.14.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (37 kB)
+Collecting torchaudio==2.11.0 (from vllm)
+  Downloading torchaudio-2.11.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.9 kB)
+Collecting torchvision==0.29.0 (from vllm)
+  Downloading torchvision-0.29.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.7 kB)
+Collecting torchcodec>=0.14 (from vllm)
+  Downloading torchcodec-0.17.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.9 kB)
+Collecting PyNvVideoCodec==2.0.4 (from vllm)
+  Downloading pynvvideocodec-2.0.4-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+Collecting flashinfer-python==0.7.2.post1 (from vllm)
+  Downloading flashinfer_python-0.7.2.post1-py3-none-any.whl.metadata (13 kB)
+Collecting apache-tvm-ffi==0.1.11 (from vllm)
+  Downloading apache_tvm_ffi-0.1.11-cp312-abi3-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (6.1 kB)
+Collecting tilelang==0.1.12 (from vllm)
+  Downloading tilelang-0.1.12-cp38-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+Collecting nvidia-cudnn-frontend>=1.31.0 (from vllm)
+  Downloading nvidia_cudnn_frontend-1.32.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (20 kB)
+Collecting nvtx==0.2.15 (from vllm)
+  Downloading nvtx-0.2.15-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.8 kB)
+Collecting fastsafetensors>=0.3.3 (from vllm)
+  Downloading fastsafetensors-0.5.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.3 kB)
+Collecting instanttensor>=0.2.2 (from vllm)
+  Downloading instanttensor-0.2.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (27 kB)
+Collecting nvidia-cutlass-dsl==4.8.0 (from nvidia-cutlass-dsl[cu13]==4.8.0->vllm)
+  Downloading nvidia_cutlass_dsl-4.8.0-py3-none-any.whl.metadata (3.0 kB)
+Collecting quack-kernels==0.6.5 (from vllm)
+  Downloading quack_kernels-0.6.5-py3-none-any.whl.metadata (834 bytes)
+Collecting tokenspeed-mla==2.0.3 (from vllm)
+  Downloading tokenspeed_mla-2.0.3-py3-none-any.whl.metadata (21 kB)
+Collecting humming-kernels==0.1.19 (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading humming_kernels-0.1.19-cp310-abi3-manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Collecting loguru (from compressed-tensors==0.17.0->vllm)
+  Downloading loguru-0.7.3-py3-none-any.whl.metadata (22 kB)
+Collecting astor (from depyf==0.20.0->vllm)
+  Downloading astor-0.8.1-py2.py3-none-any.whl.metadata (4.2 kB)
+Collecting dill (from depyf==0.20.0->vllm)
+  Downloading dill-0.4.1-py3-none-any.whl.metadata (10 kB)
+Collecting click (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting cuda-python>=12.0 (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading cuda_python-13.5.0-py3-none-any.whl.metadata (6.8 kB)
+Collecting cuda-tile>=1.4.0 (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading cuda_tile-1.8.0-cp312-cp312-manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting nccl-extensions>=0.1.0 (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading nccl_extensions-0.1.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+Collecting nccl4py>=0.4.1 (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading nccl4py-0.6.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.2 kB)
+Collecting nvidia-ml-py (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading nvidia_ml_py-13.615.71-py3-none-any.whl.metadata (9.7 kB)
+Requirement already satisfied: packaging>=24.2 in /usr/local/lib/python3.12/dist-packages (from flashinfer-python==0.7.2.post1->vllm) (25.0)
+Collecting tabulate (from flashinfer-python==0.7.2.post1->vllm)
+  Downloading tabulate-0.10.0-py3-none-any.whl.metadata (40 kB)
+Requirement already satisfied: triton in /usr/local/lib/python3.12/dist-packages (from humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm) (3.4.0)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm) (3.1.6)
+Collecting cuda-bindings (from humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm)
+  Downloading cuda_bindings-13.5.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (2.5 kB)
+Collecting nvidia-cuda-runtime (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_runtime-13.5.37-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cuda-cccl (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_cccl-13.3.5.0.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-nvcc (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_nvcc-13.5.37-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.9 kB)
+Collecting nvidia-cuda-nvrtc (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_nvrtc-13.5.37-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.8 kB)
+Collecting interegular>=0.3.2 (from lm-format-enforcer==0.11.3->vllm)
+  Downloading interegular-0.3.3-py37-none-any.whl.metadata (3.0 kB)
+Collecting llvmlite<0.48,>=0.47.0dev0 (from numba==0.65.0->vllm)
+  Downloading llvmlite-0.47.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.0 kB)
+Collecting nvidia-cutlass-dsl-libs-base==4.8.0 (from nvidia-cutlass-dsl==4.8.0->nvidia-cutlass-dsl[cu13]==4.8.0->vllm)
+  Downloading nvidia_cutlass_dsl_libs_base-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (2.9 kB)
+Collecting nvidia-cutlass-dsl-libs-cu12==4.8.0 (from nvidia-cutlass-dsl==4.8.0->nvidia-cutlass-dsl[cu13]==4.8.0->vllm)
+  Downloading nvidia_cutlass_dsl_libs_cu12-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (2.9 kB)
+Collecting nvidia-cutlass-dsl-libs-core==4.8.0 (from nvidia-cutlass-dsl-libs-base==4.8.0->nvidia-cutlass-dsl==4.8.0->nvidia-cutlass-dsl[cu13]==4.8.0->vllm)
+  Downloading nvidia_cutlass_dsl_libs_core-4.8.0-py3-none-any.whl.metadata (2.8 kB)
+Collecting nvidia-cutlass-dsl-libs-cu13==4.8.0 (from nvidia-cutlass-dsl[cu13]==4.8.0->vllm)
+  Downloading nvidia_cutlass_dsl_libs_cu13-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (2.9 kB)
+Collecting torch-c-dlpack-ext (from quack-kernels==0.6.5->vllm)
+  Downloading torch_c_dlpack_ext-0.1.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (14 kB)
+Collecting ml-dtypes (from tilelang==0.1.12->vllm)
+  Downloading ml_dtypes-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting z3-solver<4.15.5,>=4.13.0 (from tilelang==0.1.12->vllm)
+  Downloading z3_solver-4.15.4.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (602 bytes)
+Collecting tokenspeed-triton>=3.9.10.post20261008 (from tokenspeed-mla==2.0.3->vllm)
+  Downloading tokenspeed_triton-3.9.10.post20261028-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.0 kB)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch==2.14.0->vllm) (1.13.3)
+Requirement already satisfied: networkx>=2.5.1 in /usr/local/lib/python3.12/dist-packages (from torch==2.14.0->vllm) (3.3)
+Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch==2.14.0->vllm) (2024.6.1)
+Collecting cuda-toolkit==13.0.3 (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading cuda_toolkit-13.0.3.0-py2.py3-none-any.whl.metadata (17 kB)
+Collecting nvidia-cudnn-cu13==9.24.0.43 (from torch==2.14.0->vllm)
+  Downloading nvidia_cudnn_cu13-9.24.0.43-py3-none-manylinux_2_27_x86_64.whl.metadata (1.9 kB)
+Collecting nvidia-cusparselt-cu13==0.8.1 (from torch==2.14.0->vllm)
+  Downloading nvidia_cusparselt_cu13-0.8.1-py3-none-manylinux2014_x86_64.whl.metadata (12 kB)
+Collecting nvidia-nccl-cu13==2.30.7 (from torch==2.14.0->vllm)
+  Downloading nvidia_nccl_cu13-2.30.7-py3-none-manylinux_2_18_x86_64.whl.metadata (2.1 kB)
+Collecting nvidia-nvshmem-cu13==3.4.5 (from torch==2.14.0->vllm)
+  Downloading nvidia_nvshmem_cu13-3.4.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.1 kB)
+Collecting triton (from humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm)
+  Downloading triton-3.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (978 bytes)
+Collecting nvidia-cublas==13.1.1.3.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cublas-13.1.1.3-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cuda-nvrtc (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_nvrtc-13.0.88-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-runtime (from humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_runtime-13.0.96-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufft==12.0.0.61.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cufft-12.0.0.61-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-nvjitlink<14,>=13.0.88 (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_nvjitlink-13.5.37-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cufile==1.15.1.6.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cufile-1.15.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-cupti==13.0.85.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cuda_cupti-13.0.85-py3-none-manylinux_2_25_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-curand==10.4.0.35.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_curand-10.4.0.35-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cusolver==12.0.4.66.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cusolver-12.0.4.66-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparse==12.6.3.3.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_cusparse-12.6.3.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-nvtx==13.0.85.* (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch==2.14.0->vllm)
+  Downloading nvidia_nvtx-13.0.85-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl.metadata (1.8 kB)
+Collecting cuda-pathfinder>=1.4.2 (from cuda-bindings->humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm)
+  Downloading cuda_pathfinder-1.8.6-py3-none-any.whl.metadata (1.9 kB)
+Collecting typing-inspection>=0.4.2 (from fastapi<0.137.0,>=0.133.0->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+Collecting annotated-doc>=0.0.2 (from fastapi<0.137.0,>=0.133.0->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+Collecting fastapi-cli>=0.0.8 (from fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading fastapi_cli-0.0.32-py3-none-any.whl.metadata (6.7 kB)
+Collecting fastar>=0.9.0 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading fastar-0.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Requirement already satisfied: httpx<1.0.0,>=0.23.0 in /usr/local/lib/python3.12/dist-packages (from fastapi[standard]<0.137.0,>=0.133.0->vllm) (0.28.1)
+Collecting python-multipart>=0.0.18 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading python_multipart-0.0.33-py3-none-any.whl.metadata (6.3 kB)
+Collecting email-validator>=2.0.0 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading email_validator-2.3.0-py3-none-any.whl.metadata (26 kB)
+Collecting uvicorn>=0.12.0 (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting pydantic-settings>=2.0.0 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading pydantic_settings-2.16.2-py3-none-any.whl.metadata (4.0 kB)
+Collecting pydantic-extra-types>=2.0.0 (from fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading pydantic_extra_types-2.11.1-py3-none-any.whl.metadata (4.2 kB)
+Requirement already satisfied: anyio in /usr/local/lib/python3.12/dist-packages (from httpx<1.0.0,>=0.23.0->fastapi[standard]<0.137.0,>=0.133.0->vllm) (4.11.0)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.12/dist-packages (from httpx<1.0.0,>=0.23.0->fastapi[standard]<0.137.0,>=0.133.0->vllm) (1.0.9)
+Requirement already satisfied: idna in /usr/local/lib/python3.12/dist-packages (from httpx<1.0.0,>=0.23.0->fastapi[standard]<0.137.0,>=0.133.0->vllm) (3.10)
+Requirement already satisfied: h11>=0.16 in /usr/local/lib/python3.12/dist-packages (from httpcore==1.*->httpx<1.0.0,>=0.23.0->fastapi[standard]<0.137.0,>=0.133.0->vllm) (0.16.0)
+Collecting httpx2>=2.10.0 (from mcp<3.0.0,>=2.2.0->vllm)
+  Downloading httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+Collecting mcp-types==2.3.0 (from mcp<3.0.0,>=2.2.0->vllm)
+  Downloading mcp_types-2.3.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.2.0->vllm)
+  Downloading pyjwt-2.15.1-py3-none-any.whl.metadata (3.5 kB)
+Collecting sse-starlette>=3.0.0 (from mcp<3.0.0,>=2.2.0->vllm)
+  Downloading sse_starlette-3.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting jmespath (from model-hosting-container-standards<1.0.0,>=0.1.14->vllm)
+  Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+Collecting supervisor>=4.2.0 (from model-hosting-container-standards<1.0.0,>=0.1.14->vllm)
+  Downloading supervisor-4.3.0-py2.py3-none-any.whl.metadata (87 kB)
+Collecting typer (from transformers<5.21.0,>=5.16.1->vllm)
+  Downloading typer-0.29.0-py3-none-any.whl.metadata (16 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface_hub>=1.31.0->vllm)
+  Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting httpcore2==2.16.0 (from httpx2>=2.10.0->mcp<3.0.0,>=2.2.0->vllm)
+  Downloading httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+Collecting idna (from httpx<1.0.0,>=0.23.0->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting truststore>=0.10 (from httpx2>=2.10.0->mcp<3.0.0,>=2.2.0->vllm)
+  Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting aiohappyeyeballs>=2.5.0 (from aiohttp>=3.14.4->vllm)
+  Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl.metadata (5.9 kB)
+Collecting aiosignal>=1.4.0 (from aiohttp>=3.14.4->vllm)
+  Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.12/dist-packages (from aiohttp>=3.14.4->vllm) (25.4.0)
+Collecting frozenlist>=1.1.1 (from aiohttp>=3.14.4->vllm)
+  Downloading frozenlist-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (20 kB)
+Collecting propcache>=0.2.0 (from aiohttp>=3.14.4->vllm)
+  Downloading propcache-0.5.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (25 kB)
+Collecting yarl<2.0,>=1.25.1 (from aiohttp>=3.14.4->vllm)
+  Downloading yarl-1.25.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (111 kB)
+Collecting docstring-parser<1,>=0.15 (from anthropic>=0.71.0->vllm)
+  Downloading docstring_parser-0.18.0-py3-none-any.whl.metadata (3.5 kB)
+Collecting jiter<1,>=0.4.0 (from anthropic>=0.71.0->vllm)
+  Downloading jiter-0.19.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+Requirement already satisfied: sniffio<2,>=1 in /usr/local/lib/python3.12/dist-packages (from anthropic>=0.71.0->vllm) (1.3.1)
+Collecting annotated-types>=0.6.0 (from pydantic>=2.12.0->vllm)
+  Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.50.4 (from pydantic>=2.12.0->vllm)
+  Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.6 kB)
+Collecting typing_extensions>=4.10 (from vllm)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting cuda-core~=1.2.0 (from cuda-python>=12.0->flashinfer-python==0.7.2.post1->vllm)
+  Downloading cuda_core-1.2.2-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.4 kB)
+Collecting dnspython>=2.0.0 (from email-validator>=2.0.0->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading dnspython-2.9.2-py3-none-any.whl.metadata (5.8 kB)
+Collecting rich-toolkit>=0.14.8 (from fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading rich_toolkit-0.20.6-py3-none-any.whl.metadata (3.0 kB)
+Collecting fastapi-cloud-cli>=0.1.1 (from fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading fastapi_cloud_cli-0.27.1-py3-none-any.whl.metadata (3.1 kB)
+Collecting rignore>=0.5.1 (from fastapi-cloud-cli>=0.1.1->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading rignore-0.8.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+Collecting sentry-sdk>=2.20.0 (from fastapi-cloud-cli>=0.1.1->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading sentry_sdk-2.74.0-py3-none-any.whl.metadata (11 kB)
+Collecting detect-installer>=0.1.0 (from fastapi-cloud-cli>=0.1.1->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading detect_installer-0.2.1-py3-none-any.whl.metadata (1.2 kB)
+Collecting agent-detector>=1.1.0 (from fastapi-cloud-cli>=0.1.1->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading agent_detector-2.0.0-py3-none-any.whl.metadata (6.6 kB)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->humming-kernels==0.1.19->humming-kernels[cu13]==0.1.19->vllm) (3.0.3)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=4.23.0->vllm) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=4.23.0->vllm) (0.36.2)
+Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=4.23.0->vllm) (0.27.1)
+Collecting opentelemetry-exporter-otlp-proto-grpc==1.45.2 (from opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_exporter_otlp_proto_grpc-1.45.2-py3-none-any.whl.metadata (2.6 kB)
+Collecting opentelemetry-exporter-otlp-proto-http==1.45.2 (from opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_exporter_otlp_proto_http-1.45.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting googleapis-common-protos~=1.57 (from opentelemetry-exporter-otlp-proto-grpc==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading googleapis_common_protos-1.76.0-py3-none-any.whl.metadata (8.5 kB)
+Collecting grpcio<2.0.0,>=1.63.2 (from opentelemetry-exporter-otlp-proto-grpc==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading grpcio-1.85.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.8 kB)
+Collecting opentelemetry-exporter-otlp-common==0.66b2 (from opentelemetry-exporter-otlp-proto-grpc==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_exporter_otlp_common-0.66b2-py3-none-any.whl.metadata (1.9 kB)
+Collecting opentelemetry-exporter-otlp-proto-common==1.45.2 (from opentelemetry-exporter-otlp-proto-grpc==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_exporter_otlp_proto_common-1.45.2-py3-none-any.whl.metadata (1.8 kB)
+Collecting opentelemetry-proto==1.45.2 (from opentelemetry-exporter-otlp-proto-grpc==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_proto-1.45.2-py3-none-any.whl.metadata (2.3 kB)
+Collecting opentelemetry-exporter-http-transport==0.66b2 (from opentelemetry-exporter-http-transport[requests]==0.66b2->opentelemetry-exporter-otlp-proto-http==1.45.2->opentelemetry-exporter-otlp>=1.27.0->vllm)
+  Downloading opentelemetry_exporter_http_transport-0.66b2-py3-none-any.whl.metadata (2.3 kB)
+Collecting opentelemetry-semantic-conventions==0.66b2 (from opentelemetry-sdk>=1.27.0->vllm)
+  Downloading opentelemetry_semantic_conventions-0.66b2-py3-none-any.whl.metadata (2.4 kB)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests>=2.33.0->vllm) (3.4.3)
+Requirement already satisfied: urllib3<3,>=1.26 in /usr/local/lib/python3.12/dist-packages (from requests>=2.33.0->vllm) (2.5.0)
+Collecting pycountry>=23 (from pydantic-extra-types[pycountry]>=2.10.5->mistral_common>=1.11.6->mistral_common[image]>=1.11.6->vllm)
+  Downloading pycountry-26.2.16-py3-none-any.whl.metadata (12 kB)
+Collecting python-dotenv>=1.2.2 (from pydantic-settings>=2.0.0->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+Requirement already satisfied: cryptography>=3.4.0 in /usr/lib/python3/dist-packages (from pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.2.0->vllm) (41.0.7)
+Collecting rich>=13.7.1 (from rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.12/dist-packages (from rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm) (2.19.2)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch==2.14.0->vllm) (1.3.0)
+Collecting shellingham>=1.3.0 (from typer->transformers<5.21.0,>=5.16.1->vllm)
+  Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+Collecting httptools>=0.8.0 (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+Collecting uvloop>=0.15.1 (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Collecting websockets>=13.0 (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm)
+  Downloading websockets-17.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+Collecting nvidia-nvvm (from nvidia-cuda-nvcc->humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_nvvm-13.5.37-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-crt (from nvidia-cuda-nvcc->humming-kernels[cu13]==0.1.19->vllm)
+  Downloading nvidia_cuda_crt-13.5.37-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Downloading vllm-0.33.0-cp38-abi3-manylinux_2_28_x86_64.whl (336.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 336.4/336.4 MB 140.5 MB/s  0:00:02
+Downloading apache_tvm_ffi-0.1.11-cp312-abi3-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.7/2.7 MB 173.7 MB/s  0:00:00
+Downloading compressed_tensors-0.17.0-py3-none-any.whl (211 kB)
+Downloading depyf-0.20.0-py3-none-any.whl (39 kB)
+Downloading flashinfer_python-0.7.2.post1-py3-none-any.whl (62.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 MB 162.2 MB/s  0:00:00
+Downloading humming_kernels-0.1.19-cp310-abi3-manylinux_2_28_x86_64.whl (556 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 556.0/556.0 kB 84.4 MB/s  0:00:00
+Downloading lark-1.2.2-py3-none-any.whl (111 kB)
+Downloading lm_format_enforcer-0.11.3-py3-none-any.whl (45 kB)
+Downloading numba-0.65.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (3.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 311.3 MB/s  0:00:00
+Downloading nvidia_cutlass_dsl-4.8.0-py3-none-any.whl (10 kB)
+Downloading nvidia_cutlass_dsl_libs_base-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl (3.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 228.2 MB/s  0:00:00
+Downloading nvidia_cutlass_dsl_libs_core-4.8.0-py3-none-any.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 240.6 MB/s  0:00:00
+Downloading nvidia_cutlass_dsl_libs_cu12-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl (91.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 MB 202.6 MB/s  0:00:00
+Downloading nvidia_cutlass_dsl_libs_cu13-4.8.0-cp312-cp312-manylinux_2_28_x86_64.whl (92.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 92.0/92.0 MB 287.5 MB/s  0:00:00
+Downloading nvtx-0.2.15-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.2/806.2 kB 183.6 MB/s  0:00:00
+Downloading outlines_core-0.2.14-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 387.2 MB/s  0:00:00
+Downloading pynvvideocodec-2.0.4-cp312-cp312-manylinux_2_28_x86_64.whl (43.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.2/43.2 MB 510.2 MB/s  0:00:00
+Downloading quack_kernels-0.6.5-py3-none-any.whl (729 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 729.6/729.6 kB 165.4 MB/s  0:00:00
+Downloading tilelang-0.1.12-cp38-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (50.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.5/50.5 MB 193.9 MB/s  0:00:00
+Downloading tokenspeed_mla-2.0.3-py3-none-any.whl (238 kB)
+Downloading torch-2.14.0-cp312-cp312-manylinux_2_28_x86_64.whl (554.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 554.6/554.6 MB 124.8 MB/s  0:00:04
+Downloading cuda_toolkit-13.0.3.0-py2.py3-none-any.whl (2.5 kB)
+Downloading nvidia_cudnn_cu13-9.24.0.43-py3-none-manylinux_2_27_x86_64.whl (553.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 553.1/553.1 MB 185.2 MB/s  0:00:03
+Downloading nvidia_cusparselt_cu13-0.8.1-py3-none-manylinux2014_x86_64.whl (170.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 170.1/170.1 MB 196.7 MB/s  0:00:00
+Downloading nvidia_nccl_cu13-2.30.7-py3-none-manylinux_2_18_x86_64.whl (216.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.0/216.0 MB 295.2 MB/s  0:00:00
+Downloading nvidia_nvshmem_cu13-3.4.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (60.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.4/60.4 MB 302.3 MB/s  0:00:00
+Downloading torchaudio-2.11.0-cp312-cp312-manylinux_2_28_x86_64.whl (1.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 289.3 MB/s  0:00:00
+Downloading torchvision-0.29.0-cp312-cp312-manylinux_2_28_x86_64.whl (7.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.4/7.4 MB 222.1 MB/s  0:00:00
+Downloading xgrammar-0.2.8-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (1.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 51.4 MB/s  0:00:00
+Downloading cuda_bindings-13.5.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (8.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.4/8.4 MB 391.4 MB/s  0:00:00
+Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+Downloading llguidance-1.7.6-cp39-abi3-manylinux_2_31_x86_64.whl (3.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 351.2 MB/s  0:00:00
+Downloading llvmlite-0.47.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (56.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 MB 439.5 MB/s  0:00:00
+Downloading mcp-2.3.0-py3-none-any.whl (368 kB)
+Downloading mcp_types-2.3.0-py3-none-any.whl (69 kB)
+Downloading model_hosting_container_standards-0.1.16-py3-none-any.whl (125 kB)
+Downloading nvidia_cublas-13.1.1.3-py3-none-manylinux_2_27_x86_64.whl (423.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 423.1/423.1 MB 220.3 MB/s  0:00:01
+Downloading nvidia_cuda_cupti-13.0.85-py3-none-manylinux_2_25_x86_64.whl (10.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.7/10.7 MB 350.1 MB/s  0:00:00
+Downloading nvidia_cuda_nvrtc-13.0.88-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (90.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.2/90.2 MB 439.9 MB/s  0:00:00
+Downloading nvidia_cuda_runtime-13.0.96-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 348.8 MB/s  0:00:00
+Downloading nvidia_cufft-12.0.0.61-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (214.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 214.1/214.1 MB 302.4 MB/s  0:00:00
+Downloading nvidia_cufile-1.15.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 251.6 MB/s  0:00:00
+Downloading nvidia_curand-10.4.0.35-py3-none-manylinux_2_27_x86_64.whl (59.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.5/59.5 MB 459.4 MB/s  0:00:00
+Downloading nvidia_cusolver-12.0.4.66-py3-none-manylinux_2_27_x86_64.whl (200.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 200.9/200.9 MB 232.1 MB/s  0:00:00
+Downloading nvidia_cusparse-12.6.3.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (145.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 145.9/145.9 MB 368.0 MB/s  0:00:00
+Downloading nvidia_nvjitlink-13.5.37-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (46.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.6/46.6 MB 455.0 MB/s  0:00:00
+Downloading nvidia_nvtx-13.0.85-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl (148 kB)
+Downloading transformers-5.20.2-py3-none-any.whl (12.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.8/12.8 MB 248.3 MB/s  0:00:00
+Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 857.0/857.0 kB 202.1 MB/s  0:00:00
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 410.6 MB/s  0:00:00
+Downloading httpx2-2.16.0-py3-none-any.whl (97 kB)
+Downloading httpcore2-2.16.0-py3-none-any.whl (85 kB)
+Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 337.2 MB/s  0:00:00
+Downloading triton-3.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (248.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 248.0/248.0 MB 239.6 MB/s  0:00:01
+Downloading z3_solver-4.15.4.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (29.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 29.3/29.3 MB 244.2 MB/s  0:00:00
+Downloading aiohttp-3.14.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 31.1 MB/s  0:00:00
+Downloading multidict-7.2.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (516 kB)
+Downloading yarl-1.25.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
+Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
+Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+Downloading anthropic-2.7.0-py3-none-any.whl (2.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 283.7 MB/s  0:00:00
+Downloading docstring_parser-0.18.0-py3-none-any.whl (22 kB)
+Downloading jiter-0.19.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (338 kB)
+Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 324.1 MB/s  0:00:00
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+Downloading cuda_pathfinder-1.8.6-py3-none-any.whl (62 kB)
+Downloading cuda_python-13.5.0-py3-none-any.whl (7.6 kB)
+Downloading cuda_core-1.2.2-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (6.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 401.0 MB/s  0:00:00
+Downloading cuda_tile-1.8.0-cp312-cp312-manylinux2014_x86_64.whl (534 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 534.5/534.5 kB 102.0 MB/s  0:00:00
+Downloading email_validator-2.3.0-py3-none-any.whl (35 kB)
+Downloading dnspython-2.9.2-py3-none-any.whl (360 kB)
+Downloading fastapi_cli-0.0.32-py3-none-any.whl (14 kB)
+Downloading fastapi_cloud_cli-0.27.1-py3-none-any.whl (109 kB)
+Downloading agent_detector-2.0.0-py3-none-any.whl (9.4 kB)
+Downloading detect_installer-0.2.1-py3-none-any.whl (5.4 kB)
+Downloading fastar-0.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (808 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 808.1/808.1 kB 199.7 MB/s  0:00:00
+Downloading fastsafetensors-0.5.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (2.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.7/2.7 MB 352.2 MB/s  0:00:00
+Downloading filelock-4.2.9-py3-none-any.whl (164 kB)
+Downloading frozenlist-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (242 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading instanttensor-0.2.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.4/7.4 MB 434.6 MB/s  0:00:00
+Downloading interegular-0.3.3-py37-none-any.whl (23 kB)
+Downloading mistral_common-1.13.1-py3-none-any.whl (6.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 412.6 MB/s  0:00:00
+Downloading nccl_extensions-0.1.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (22.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 22.6/22.6 MB 327.4 MB/s  0:00:00
+Downloading nccl4py-0.6.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (3.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 403.4 MB/s  0:00:00
+Downloading nvidia_cudnn_frontend-1.32.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (11.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.6/11.6 MB 315.4 MB/s  0:00:00
+Downloading openai-3.48.0-py3-none-any.whl (2.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 343.3 MB/s  0:00:00
+Downloading opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl (61.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.2/61.2 MB 455.9 MB/s  0:00:00
+Downloading opentelemetry_exporter_otlp-1.45.2-py3-none-any.whl (6.7 kB)
+Downloading opentelemetry_exporter_otlp_proto_grpc-1.45.2-py3-none-any.whl (19 kB)
+Downloading opentelemetry_exporter_otlp_common-0.66b2-py3-none-any.whl (12 kB)
+Downloading opentelemetry_exporter_otlp_proto_common-1.45.2-py3-none-any.whl (15 kB)
+Downloading opentelemetry_exporter_otlp_proto_http-1.45.2-py3-none-any.whl (22 kB)
+Downloading opentelemetry_exporter_http_transport-0.66b2-py3-none-any.whl (12 kB)
+Downloading opentelemetry_proto-1.45.2-py3-none-any.whl (72 kB)
+Downloading googleapis_common_protos-1.76.0-py3-none-any.whl (307 kB)
+Downloading grpcio-1.85.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (7.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.4/7.4 MB 470.6 MB/s  0:00:00
+Downloading opentelemetry_sdk-1.45.2-py3-none-any.whl (141 kB)
+Downloading opentelemetry_semantic_conventions-0.66b2-py3-none-any.whl (206 kB)
+Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Downloading opentelemetry_semantic_conventions_ai-0.5.1-py3-none-any.whl (11 kB)
+Downloading orjson-3.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (130 kB)
+Downloading oss_harmony-0.0.12-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.5/3.5 MB 31.9 MB/s  0:00:00
+Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 270.6 MB/s  0:00:00
+Downloading prometheus_fastapi_instrumentator-8.1.0-py3-none-any.whl (19 kB)
+Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+Downloading propcache-0.5.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (250 kB)
+Downloading pydantic_extra_types-2.11.1-py3-none-any.whl (79 kB)
+Downloading pycountry-26.2.16-py3-none-any.whl (8.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.0/8.0 MB 377.2 MB/s  0:00:00
+Downloading pydantic_settings-2.16.2-py3-none-any.whl (81 kB)
+Downloading pyjwt-2.15.1-py3-none-any.whl (33 kB)
+Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+Downloading python_multipart-0.0.33-py3-none-any.whl (32 kB)
+Downloading regex-2026.11.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (808 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 808.8/808.8 kB 185.5 MB/s  0:00:00
+Downloading rich_toolkit-0.20.6-py3-none-any.whl (39 kB)
+Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Downloading rignore-0.8.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (927 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 927.8/927.8 kB 225.3 MB/s  0:00:00
+Downloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (516 kB)
+Downloading sentry_sdk-2.74.0-py3-none-any.whl (549 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 549.8/549.8 kB 108.8 MB/s  0:00:00
+Downloading sse_starlette-3.7.0-py3-none-any.whl (18 kB)
+Downloading supervisor-4.3.0-py2.py3-none-any.whl (320 kB)
+Downloading tiktoken-0.14.0-cp312-cp312-manylinux_2_28_x86_64.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 246.5 MB/s  0:00:00
+Downloading tokenspeed_triton-3.9.10.post20261028-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (94.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.9/94.9 MB 253.8 MB/s  0:00:00
+Downloading torchcodec-0.17.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (10.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.0/10.0 MB 348.3 MB/s  0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+Downloading typer-0.29.0-py3-none-any.whl (121 kB)
+Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (552 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 552.8/552.8 kB 126.9 MB/s  0:00:00
+Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 378.4 MB/s  0:00:00
+Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (458 kB)
+Downloading websockets-17.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (226 kB)
+Downloading astor-0.8.1-py2.py3-none-any.whl (27 kB)
+Downloading blake3-1.0.11-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (381 kB)
+Downloading cachetools-8.0.0-py3-none-any.whl (18 kB)
+Downloading cbor2-6.2.1-cp312-cp312-manylinux_2_28_x86_64.whl (470 kB)
+Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+Downloading dill-0.4.1-py3-none-any.whl (120 kB)
+Downloading einops-0.8.2-py3-none-any.whl (65 kB)
+Downloading ijson-3.6.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (150 kB)
+Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+Downloading loguru-0.7.3-py3-none-any.whl (61 kB)
+Downloading ml_dtypes-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (409 kB)
+Downloading msgspec-0.22.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (230 kB)
+Downloading ninja-1.13.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (183 kB)
+Downloading nvidia_cuda_cccl-13.3.5.0.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.1/4.1 MB 354.8 MB/s  0:00:00
+Downloading nvidia_cuda_nvcc-13.5.37-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (47.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 47.0/47.0 MB 390.8 MB/s  0:00:00
+Downloading nvidia_cuda_crt-13.5.37-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (166 kB)
+Downloading nvidia_ml_py-13.615.71-py3-none-any.whl (58 kB)
+Downloading nvidia_nvvm-13.5.37-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (75.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75.1/75.1 MB 346.3 MB/s  0:00:00
+Downloading partial_json_parser-0.2.1.1.post7-py3-none-any.whl (10 kB)
+Downloading py_cpuinfo-9.0.0-py3-none-any.whl (22 kB)
+Downloading pybase64-1.5.1-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (94 kB)
+Downloading sentencepiece-0.2.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 312.6 MB/s  0:00:00
+Downloading setproctitle-1.3.8-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (32 kB)
+Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
+Downloading torch_c_dlpack_ext-0.1.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (897 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 897.8/897.8 kB 219.8 MB/s  0:00:00
+Installing collected packages: z3-solver, torchaudio, supervisor, py-cpuinfo, nvtx, nvidia-ml-py, nvidia-cusparselt-cu13, cuda-toolkit, websockets, uvloop, typing_extensions, truststore, triton, tqdm, torchcodec, tokenspeed-triton, tabulate, shellingham, setproctitle, sentencepiece, safetensors, rignore, regex, python-multipart, python-dotenv, PyNvVideoCodec, pyjwt, pycountry, pybase64, protobuf, propcache, pillow, partial-json-parser, outlines_core, orjson, opencv-python-headless, nvidia-nvvm, nvidia-nvtx, nvidia-nvshmem-cu13, nvidia-nvjitlink, nvidia-nccl-cu13, nvidia-curand, nvidia-cufile, nvidia-cuda-runtime, nvidia-cuda-nvrtc, nvidia-cuda-cupti, nvidia-cuda-crt, nvidia-cuda-cccl, ninja, multidict, msgspec, ml-dtypes, mdurl, loguru, llvmlite, llguidance, lark, jmespath, jiter, interegular, ijson, idna, httptools, hf-xet, frozenlist, filelock, fastar, einops, docstring-parser, dnspython, dill, detect-installer, cuda-pathfinder, cloudpickle, click, certifi, cbor2, cachetools, blake3, astor, annotated-types, annotated-doc, aiohappyeyeballs, agent-detector, yarl, uvicorn, typing-inspection, sentry-sdk, requests, pydantic-core, opentelemetry-proto, opentelemetry-api, nvidia-cusparse, nvidia-cufft, nvidia-cuda-nvcc, nvidia-cublas, numba, markdown-it-py, httpcore2, grpcio, googleapis-common-protos, email-validator, depyf, cuda-tile, cuda-core, cuda-bindings, apache-tvm-ffi, aiosignal, watchfiles, tiktoken, starlette, rich, pydantic, opentelemetry-semantic-conventions, opentelemetry-exporter-otlp-proto-common, opentelemetry-exporter-http-transport, nvidia-cutlass-dsl-libs-core, nvidia-cusolver, nvidia-cudnn-cu13, nccl4py, httpx2, cuda-python, aiohttp, typer, sse-starlette, rich-toolkit, pydantic-settings, pydantic-extra-types, prometheus-fastapi-instrumentator, oss-harmony, opentelemetry-sdk, openai, nvidia-cutlass-dsl-libs-base, nccl-extensions, mcp-types, lm-format-enforcer, huggingface_hub, fastapi, anthropic, torch, tokenizers, opentelemetry-semantic-conventions-ai, opentelemetry-exporter-otlp-common, nvidia-cutlass-dsl-libs-cu13, nvidia-cutlass-dsl-libs-cu12, model-hosting-container-standards, mcp, fastsafetensors, fastapi-cloud-cli, fastapi-cli, transformers, torchvision, torch-c-dlpack-ext, opentelemetry-exporter-otlp-proto-http, opentelemetry-exporter-otlp-proto-grpc, nvidia-cutlass-dsl, mistral_common, instanttensor, humming-kernels, xgrammar, tokenspeed-mla, tilelang, quack-kernels, opentelemetry-exporter-otlp, compressed-tensors, nvidia-cudnn-frontend, flashinfer-python, vllm
+  Attempting uninstall: torchaudio
+    Found existing installation: torchaudio 2.8.0+cu128
+    Uninstalling torchaudio-2.8.0+cu128:
+      Successfully uninstalled torchaudio-2.8.0+cu128
+  Attempting uninstall: typing_extensions
+    Found existing installation: typing_extensions 4.15.0
+    Uninstalling typing_extensions-4.15.0:
+      Successfully uninstalled typing_extensions-4.15.0
+  Attempting uninstall: triton
+    Found existing installation: triton 3.4.0
+    Uninstalling triton-3.4.0:
+      Successfully uninstalled triton-3.4.0
+  Attempting uninstall: pyjwt
+    Found existing installation: PyJWT 2.7.0
+    Uninstalling PyJWT-2.7.0:
+      Successfully uninstalled PyJWT-2.7.0
+  Attempting uninstall: pillow
+    Found existing installation: pillow 11.0.0
+    Uninstalling pillow-11.0.0:
+      Successfully uninstalled pillow-11.0.0
+  Attempting uninstall: lark
+    Found existing installation: lark 1.3.0
+    Uninstalling lark-1.3.0:
+      Successfully uninstalled lark-1.3.0
+  Attempting uninstall: idna
+    Found existing installation: idna 3.10
+    Uninstalling idna-3.10:
+      Successfully uninstalled idna-3.10
+  Attempting uninstall: filelock
+    Found existing installation: filelock 3.20.0
+    Uninstalling filelock-3.20.0:
+      Successfully uninstalled filelock-3.20.0
+  Attempting uninstall: certifi
+    Found existing installation: certifi 2025.10.5
+    Uninstalling certifi-2025.10.5:
+      Successfully uninstalled certifi-2025.10.5
+  Attempting uninstall: requests
+    Found existing installation: requests 2.32.5
+    Uninstalling requests-2.32.5:
+      Successfully uninstalled requests-2.32.5
+  Attempting uninstall: torch
+    Found existing installation: torch 2.8.0+cu128
+    Uninstalling torch-2.8.0+cu128:
+      Successfully uninstalled torch-2.8.0+cu128
+  Attempting uninstall: torchvision
+    Found existing installation: torchvision 0.23.0+cu128
+    Uninstalling torchvision-0.23.0+cu128:
+      Successfully uninstalled torchvision-0.23.0+cu128
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+virtualenv 20.34.0 requires filelock<4,>=3.12.2, but you have filelock 4.2.9 which is incompatible.
+Successfully installed PyNvVideoCodec-2.0.4 agent-detector-2.0.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anthropic-2.7.0 apache-tvm-ffi-0.1.11 astor-0.8.1 blake3-1.0.11 cachetools-8.0.0 cbor2-6.2.1 certifi-2026.10.23 click-8.5.1 cloudpickle-3.1.2 compressed-tensors-0.17.0 cuda-bindings-13.5.0 cuda-core-1.2.2 cuda-pathfinder-1.8.6 cuda-python-13.5.0 cuda-tile-1.8.0 cuda-toolkit-13.0.3.0 depyf-0.20.0 detect-installer-0.2.1 dill-0.4.1 dnspython-2.9.2 docstring-parser-0.18.0 einops-0.8.2 email-validator-2.3.0 fastapi-0.136.3 fastapi-cli-0.0.32 fastapi-cloud-cli-0.27.1 fastar-0.12.0 fastsafetensors-0.5.0 filelock-4.2.9 flashinfer-python-0.7.2.post1 frozenlist-1.8.0 googleapis-common-protos-1.76.0 grpcio-1.85.1 hf-xet-1.8.0 httpcore2-2.16.0 httptools-0.9.0 httpx2-2.16.0 huggingface_hub-2.4.0 humming-kernels-0.1.19 idna-3.20 ijson-3.6.0 instanttensor-0.2.3 interegular-0.3.3 jiter-0.19.0 jmespath-1.1.0 lark-1.2.2 llguidance-1.7.6 llvmlite-0.47.0 lm-format-enforcer-0.11.3 loguru-0.7.3 markdown-it-py-4.2.0 mcp-2.3.0 mcp-types-2.3.0 mdurl-0.1.2 mistral_common-1.13.1 ml-dtypes-0.6.0 model-hosting-container-standards-0.1.16 msgspec-0.22.0 multidict-7.2.1 nccl-extensions-0.1.0 nccl4py-0.6.0 ninja-1.13.2 numba-0.65.0 nvidia-cublas-13.1.1.3 nvidia-cuda-cccl-13.3.5.0.6 nvidia-cuda-crt-13.5.37 nvidia-cuda-cupti-13.0.85 nvidia-cuda-nvcc-13.5.37 nvidia-cuda-nvrtc-13.0.88 nvidia-cuda-runtime-13.0.96 nvidia-cudnn-cu13-9.24.0.43 nvidia-cudnn-frontend-1.32.2 nvidia-cufft-12.0.0.61 nvidia-cufile-1.15.1.6 nvidia-curand-10.4.0.35 nvidia-cusolver-12.0.4.66 nvidia-cusparse-12.6.3.3 nvidia-cusparselt-cu13-0.8.1 nvidia-cutlass-dsl-4.8.0 nvidia-cutlass-dsl-libs-base-4.8.0 nvidia-cutlass-dsl-libs-core-4.8.0 nvidia-cutlass-dsl-libs-cu12-4.8.0 nvidia-cutlass-dsl-libs-cu13-4.8.0 nvidia-ml-py-13.615.71 nvidia-nccl-cu13-2.30.7 nvidia-nvjitlink-13.5.37 nvidia-nvshmem-cu13-3.4.5 nvidia-nvtx-13.0.85 nvidia-nvvm-13.5.37 nvtx-0.2.15 openai-3.48.0 opencv-python-headless-5.0.0.93 opentelemetry-api-1.45.2 opentelemetry-exporter-http-transport-0.66b2 opentelemetry-exporter-otlp-1.45.2 opentelemetry-exporter-otlp-common-0.66b2 opentelemetry-exporter-otlp-proto-common-1.45.2 opentelemetry-exporter-otlp-proto-grpc-1.45.2 opentelemetry-exporter-otlp-proto-http-1.45.2 opentelemetry-proto-1.45.2 opentelemetry-sdk-1.45.2 opentelemetry-semantic-conventions-0.66b2 opentelemetry-semantic-conventions-ai-0.5.1 orjson-3.13.0 oss-harmony-0.0.12 outlines_core-0.2.14 partial-json-parser-0.2.1.1.post7 pillow-13.0.0 prometheus-fastapi-instrumentator-8.1.0 propcache-0.5.4 protobuf-7.36.2 py-cpuinfo-9.0.0 pybase64-1.5.1 pycountry-26.2.16 pydantic-2.14.3 pydantic-core-2.50.4 pydantic-extra-types-2.11.1 pydantic-settings-2.16.2 pyjwt-2.15.1 python-dotenv-1.2.4 python-multipart-0.0.33 quack-kernels-0.6.5 regex-2026.11.9 requests-2.34.2 rich-15.0.0 rich-toolkit-0.20.6 rignore-0.8.1 safetensors-0.8.0 sentencepiece-0.2.3 sentry-sdk-2.74.0 setproctitle-1.3.8 shellingham-1.5.4 sse-starlette-3.7.0 starlette-1.10.0 supervisor-4.3.0 tabulate-0.10.0 tiktoken-0.14.0 tilelang-0.1.12 tokenizers-0.23.3 tokenspeed-mla-2.0.3 tokenspeed-triton-3.9.10.post20261028 torch-2.14.0 torch-c-dlpack-ext-0.1.5 torchaudio-2.11.0 torchcodec-0.17.0 torchvision-0.29.0 tqdm-4.70.1 transformers-5.20.2 triton-3.8.0 truststore-0.10.5 typer-0.29.0 typing-inspection-0.4.5 typing_extensions-4.16.0 uvicorn-0.54.0 uvloop-0.23.0 vllm-0.33.0 watchfiles-1.3.0 websockets-17.4 xgrammar-0.2.8 yarl-1.25.1 z3-solver-4.15.4.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting jupyter
+  Downloading jupyter-1.1.1-py2.py3-none-any.whl.metadata (2.0 kB)
+Requirement already satisfied: nbconvert in /usr/local/lib/python3.12/dist-packages (7.16.6)
+Requirement already satisfied: ipykernel in /usr/local/lib/python3.12/dist-packages (6.30.1)
+Requirement already satisfied: openai in /usr/local/lib/python3.12/dist-packages (3.48.0)
+Requirement already satisfied: numpy>=1.24 in /usr/local/lib/python3.12/dist-packages (from -r requirements.txt (line 2)) (2.1.2)
+Requirement already satisfied: networkx>=3.0 in /usr/local/lib/python3.12/dist-packages (from -r requirements.txt (line 3)) (3.3)
+Collecting pandas>=2.0 (from -r requirements.txt (line 4))
+  Downloading pandas-3.1.1-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+Collecting matplotlib>=3.7 (from -r requirements.txt (line 5))
+  Downloading matplotlib-3.11.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+Requirement already satisfied: pyyaml>=6.0 in /usr/local/lib/python3.12/dist-packages (from -r requirements.txt (line 6)) (6.0.3)
+Collecting pytest>=7 (from -r requirements.txt (line 7))
+  Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+Collecting sentence-transformers>=2.2 (from -r requirements.txt (line 10))
+  Downloading sentence_transformers-6.2.0-py3-none-any.whl.metadata (20 kB)
+Requirement already satisfied: transformers>=4.43 in /usr/local/lib/python3.12/dist-packages (from -r requirements.txt (line 11)) (5.20.2)
+Collecting accelerate>=0.30 (from -r requirements.txt (line 12))
+  Downloading accelerate-1.15.0-py3-none-any.whl.metadata (19 kB)
+Requirement already satisfied: torch>=2.1 in /usr/local/lib/python3.12/dist-packages (from -r requirements.txt (line 13)) (2.14.0)
+Requirement already satisfied: notebook in /usr/local/lib/python3.12/dist-packages (from jupyter) (7.4.2)
+Collecting jupyter-console (from jupyter)
+  Downloading jupyter_console-6.6.3-py3-none-any.whl.metadata (5.8 kB)
+Requirement already satisfied: ipywidgets in /usr/local/lib/python3.12/dist-packages (from jupyter) (8.1.7)
+Requirement already satisfied: jupyterlab in /usr/local/lib/python3.12/dist-packages (from jupyter) (4.4.9)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (4.14.2)
+Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.12/dist-packages (from bleach[css]!=5.0.0->nbconvert) (6.2.0)
+Requirement already satisfied: defusedxml in /usr/local/lib/python3.12/dist-packages (from nbconvert) (0.7.1)
+Requirement already satisfied: jinja2>=3.0 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (3.1.6)
+Requirement already satisfied: jupyter-core>=4.7 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (5.8.1)
+Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.12/dist-packages (from nbconvert) (0.3.0)
+Requirement already satisfied: markupsafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (3.0.3)
+Requirement already satisfied: mistune<4,>=2.0.3 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (3.1.4)
+Requirement already satisfied: nbclient>=0.5.0 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (0.10.2)
+Requirement already satisfied: nbformat>=5.7 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (5.10.4)
+Requirement already satisfied: packaging in /usr/local/lib/python3.12/dist-packages (from nbconvert) (25.0)
+Requirement already satisfied: pandocfilters>=1.4.1 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (1.5.1)
+Requirement already satisfied: pygments>=2.4.1 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (2.19.2)
+Requirement already satisfied: traitlets>=5.1 in /usr/local/lib/python3.12/dist-packages (from nbconvert) (5.14.3)
+Requirement already satisfied: comm>=0.1.1 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (0.2.3)
+Requirement already satisfied: debugpy>=1.6.5 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (1.8.17)
+Requirement already satisfied: ipython>=7.23.1 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (9.6.0)
+Requirement already satisfied: jupyter-client>=8.0.0 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (8.6.3)
+Requirement already satisfied: matplotlib-inline>=0.1 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (0.1.7)
+Requirement already satisfied: nest-asyncio>=1.4 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (1.6.0)
+Requirement already satisfied: psutil>=5.7 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (7.1.0)
+Requirement already satisfied: pyzmq>=25 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (27.1.0)
+Requirement already satisfied: tornado>=6.2 in /usr/local/lib/python3.12/dist-packages (from ipykernel) (6.5.2)
+Requirement already satisfied: anyio<5,>=4.10.0 in /usr/local/lib/python3.12/dist-packages (from openai) (4.11.0)
+Requirement already satisfied: httpx2<3,>=2.12.0 in /usr/local/lib/python3.12/dist-packages (from openai) (2.16.0)
+Requirement already satisfied: jiter<1,>=0.16.0 in /usr/local/lib/python3.12/dist-packages (from openai) (0.19.0)
+Requirement already satisfied: pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,<3,>=1.10.13 in /usr/local/lib/python3.12/dist-packages (from openai) (2.14.3)
+Requirement already satisfied: sniffio in /usr/local/lib/python3.12/dist-packages (from openai) (1.3.1)
+Requirement already satisfied: typing-extensions<5,>=4.14 in /usr/local/lib/python3.12/dist-packages (from openai) (4.16.0)
+Requirement already satisfied: idna>=2.8 in /usr/local/lib/python3.12/dist-packages (from anyio<5,>=4.10.0->openai) (3.20)
+Requirement already satisfied: httpcore2==2.16.0 in /usr/local/lib/python3.12/dist-packages (from httpx2<3,>=2.12.0->openai) (2.16.0)
+Requirement already satisfied: truststore>=0.10 in /usr/local/lib/python3.12/dist-packages (from httpx2<3,>=2.12.0->openai) (0.10.5)
+Requirement already satisfied: h11>=0.16 in /usr/local/lib/python3.12/dist-packages (from httpcore2==2.16.0->httpx2<3,>=2.12.0->openai) (0.16.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.12/dist-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,<3,>=1.10.13->openai) (0.8.0)
+Requirement already satisfied: pydantic-core==2.50.4 in /usr/local/lib/python3.12/dist-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,<3,>=1.10.13->openai) (2.50.4)
+Requirement already satisfied: typing-inspection>=0.4.4 in /usr/local/lib/python3.12/dist-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,<3,>=1.10.13->openai) (0.4.5)
+Requirement already satisfied: python-dateutil>=2.9.0 in /usr/local/lib/python3.12/dist-packages (from pandas>=2.0->-r requirements.txt (line 4)) (2.9.0.post0)
+Collecting contourpy>=1.0.1 (from matplotlib>=3.7->-r requirements.txt (line 5))
+  Downloading contourpy-1.4.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+Collecting cycler>=0.10 (from matplotlib>=3.7->-r requirements.txt (line 5))
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.28.2 (from matplotlib>=3.7->-r requirements.txt (line 5))
+  Downloading fonttools-4.68.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (139 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib>=3.7->-r requirements.txt (line 5))
+  Downloading kiwisolver-1.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+Requirement already satisfied: pillow>=9 in /usr/local/lib/python3.12/dist-packages (from matplotlib>=3.7->-r requirements.txt (line 5)) (13.0.0)
+Requirement already satisfied: pyparsing>=3 in /usr/lib/python3/dist-packages (from matplotlib>=3.7->-r requirements.txt (line 5)) (3.1.1)
+Collecting iniconfig>=2 (from pytest>=7->-r requirements.txt (line 7))
+  Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Collecting pluggy<2,>=1.6 (from pytest>=7->-r requirements.txt (line 7))
+  Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+Requirement already satisfied: tokenizers>=0.19 in /usr/local/lib/python3.12/dist-packages (from sentence-transformers>=2.2->-r requirements.txt (line 10)) (0.23.3)
+Requirement already satisfied: huggingface-hub<3.0.0,>=1.3.0 in /usr/local/lib/python3.12/dist-packages (from sentence-transformers>=2.2->-r requirements.txt (line 10)) (2.4.0)
+Collecting scikit-learn>=1.1.0 (from sentence-transformers>=2.2->-r requirements.txt (line 10))
+  Downloading scikit_learn-1.9.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.3 kB)
+Collecting scipy>=1.0.0 (from sentence-transformers>=2.2->-r requirements.txt (line 10))
+  Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Requirement already satisfied: tqdm>=4.0.0 in /usr/local/lib/python3.12/dist-packages (from sentence-transformers>=2.2->-r requirements.txt (line 10)) (4.70.1)
+Requirement already satisfied: regex>=2025.10.22 in /usr/local/lib/python3.12/dist-packages (from transformers>=4.43->-r requirements.txt (line 11)) (2026.11.9)
+Requirement already satisfied: typer in /usr/local/lib/python3.12/dist-packages (from transformers>=4.43->-r requirements.txt (line 11)) (0.29.0)
+Requirement already satisfied: safetensors>=0.8.0 in /usr/local/lib/python3.12/dist-packages (from transformers>=4.43->-r requirements.txt (line 11)) (0.8.0)
+Requirement already satisfied: click<9.0.0,>=8.4.2 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<3.0.0,>=1.3.0->sentence-transformers>=2.2->-r requirements.txt (line 10)) (8.5.1)
+Requirement already satisfied: filelock>=3.10.0 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<3.0.0,>=1.3.0->sentence-transformers>=2.2->-r requirements.txt (line 10)) (4.2.9)
+Requirement already satisfied: fsspec>=2023.5.0 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<3.0.0,>=1.3.0->sentence-transformers>=2.2->-r requirements.txt (line 10)) (2024.6.1)
+Requirement already satisfied: hf-xet<2.0.0,>=1.6.0 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<3.0.0,>=1.3.0->sentence-transformers>=2.2->-r requirements.txt (line 10)) (1.8.0)
+Requirement already satisfied: setuptools>=77.0.3 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (80.9.0)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (1.13.3)
+Requirement already satisfied: cuda-toolkit==13.0.3 in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.0.3.0)
+Requirement already satisfied: cuda-bindings<14,>=13.0.3 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (13.5.0)
+Requirement already satisfied: nvidia-cudnn-cu13==9.24.0.43 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (9.24.0.43)
+Requirement already satisfied: nvidia-cusparselt-cu13==0.8.1 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (0.8.1)
+Requirement already satisfied: nvidia-nccl-cu13==2.30.7 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (2.30.7)
+Requirement already satisfied: nvidia-nvshmem-cu13==3.4.5 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (3.4.5)
+Requirement already satisfied: triton~=3.8.0 in /usr/local/lib/python3.12/dist-packages (from torch>=2.1->-r requirements.txt (line 13)) (3.8.0)
+Requirement already satisfied: nvidia-cublas==13.1.1.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.1.1.3)
+Requirement already satisfied: nvidia-cuda-nvrtc==13.0.88.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.0.88)
+Requirement already satisfied: nvidia-cuda-runtime==13.0.96.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.0.96)
+Requirement already satisfied: nvidia-cufft==12.0.0.61.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (12.0.0.61)
+Requirement already satisfied: nvidia-nvjitlink<14,>=13.0.88 in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.5.37)
+Requirement already satisfied: nvidia-cufile==1.15.1.6.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (1.15.1.6)
+Requirement already satisfied: nvidia-cuda-cupti==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.0.85)
+Requirement already satisfied: nvidia-curand==10.4.0.35.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (10.4.0.35)
+Requirement already satisfied: nvidia-cusolver==12.0.4.66.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (12.0.4.66)
+Requirement already satisfied: nvidia-cusparse==12.6.3.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (12.6.3.3)
+Requirement already satisfied: nvidia-nvtx==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch>=2.1->-r requirements.txt (line 13)) (13.0.85)
+Requirement already satisfied: cuda-pathfinder>=1.4.2 in /usr/local/lib/python3.12/dist-packages (from cuda-bindings<14,>=13.0.3->torch>=2.1->-r requirements.txt (line 13)) (1.8.6)
+Requirement already satisfied: webencodings in /usr/local/lib/python3.12/dist-packages (from bleach!=5.0.0->bleach[css]!=5.0.0->nbconvert) (0.5.1)
+Requirement already satisfied: tinycss2<1.5,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from bleach[css]!=5.0.0->nbconvert) (1.4.0)
+Requirement already satisfied: decorator in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (5.2.1)
+Requirement already satisfied: ipython-pygments-lexers in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (1.1.1)
+Requirement already satisfied: jedi>=0.16 in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (0.19.2)
+Requirement already satisfied: pexpect>4.3 in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (4.9.0)
+Requirement already satisfied: prompt_toolkit<3.1.0,>=3.0.41 in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (3.0.52)
+Requirement already satisfied: stack_data in /usr/local/lib/python3.12/dist-packages (from ipython>=7.23.1->ipykernel) (0.6.3)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.12/dist-packages (from prompt_toolkit<3.1.0,>=3.0.41->ipython>=7.23.1->ipykernel) (0.2.14)
+Requirement already satisfied: parso<0.9.0,>=0.8.4 in /usr/local/lib/python3.12/dist-packages (from jedi>=0.16->ipython>=7.23.1->ipykernel) (0.8.5)
+Requirement already satisfied: platformdirs>=2.5 in /usr/local/lib/python3.12/dist-packages (from jupyter-core>=4.7->nbconvert) (4.5.0)
+Requirement already satisfied: fastjsonschema>=2.15 in /usr/local/lib/python3.12/dist-packages (from nbformat>=5.7->nbconvert) (2.21.2)
+Requirement already satisfied: jsonschema>=2.6 in /usr/local/lib/python3.12/dist-packages (from nbformat>=5.7->nbconvert) (4.25.1)
+Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (25.4.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (0.36.2)
+Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (0.27.1)
+Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.12/dist-packages (from pexpect>4.3->ipython>=7.23.1->ipykernel) (0.7.0)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.9.0->pandas>=2.0->-r requirements.txt (line 4)) (1.16.0)
+Collecting joblib>=1.4.0 (from scikit-learn>=1.1.0->sentence-transformers>=2.2->-r requirements.txt (line 10))
+  Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting narwhals>=2.0.1 (from scikit-learn>=1.1.0->sentence-transformers>=2.2->-r requirements.txt (line 10))
+  Downloading narwhals-2.28.0-py3-none-any.whl.metadata (15 kB)
+Collecting threadpoolctl>=3.5.0 (from scikit-learn>=1.1.0->sentence-transformers>=2.2->-r requirements.txt (line 10))
+  Downloading threadpoolctl-3.8.0-py3-none-any.whl.metadata (29 kB)
+Requirement already satisfied: cloudpickle>=3.0 in /usr/local/lib/python3.12/dist-packages (from joblib>=1.4.0->scikit-learn>=1.1.0->sentence-transformers>=2.2->-r requirements.txt (line 10)) (3.1.2)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch>=2.1->-r requirements.txt (line 13)) (1.3.0)
+Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.12/dist-packages (from beautifulsoup4->nbconvert) (2.8)
+Requirement already satisfied: widgetsnbextension~=4.0.14 in /usr/local/lib/python3.12/dist-packages (from ipywidgets->jupyter) (4.0.14)
+Requirement already satisfied: jupyterlab_widgets~=3.0.15 in /usr/local/lib/python3.12/dist-packages (from ipywidgets->jupyter) (3.0.15)
+Requirement already satisfied: async-lru>=1.0.0 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (2.0.5)
+Requirement already satisfied: httpx<1,>=0.25.0 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (0.28.1)
+Requirement already satisfied: jupyter-lsp>=2.0.0 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (2.3.0)
+Requirement already satisfied: jupyter-server<3,>=2.4.0 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (2.17.0)
+Requirement already satisfied: jupyterlab-server<3,>=2.27.1 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (2.27.3)
+Requirement already satisfied: notebook-shim>=0.2 in /usr/local/lib/python3.12/dist-packages (from jupyterlab->jupyter) (0.2.4)
+Requirement already satisfied: certifi in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.25.0->jupyterlab->jupyter) (2026.10.23)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.25.0->jupyterlab->jupyter) (1.0.9)
+Requirement already satisfied: argon2-cffi>=21.1 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (25.1.0)
+Requirement already satisfied: jupyter-events>=0.11.0 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.12.0)
+Requirement already satisfied: jupyter-server-terminals>=0.4.4 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.5.3)
+Requirement already satisfied: prometheus-client>=0.9 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.23.1)
+Requirement already satisfied: send2trash>=1.8.2 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.8.3)
+Requirement already satisfied: terminado>=0.8.3 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.18.1)
+Requirement already satisfied: websocket-client>=1.7 in /usr/local/lib/python3.12/dist-packages (from jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.9.0)
+Requirement already satisfied: babel>=2.10 in /usr/local/lib/python3.12/dist-packages (from jupyterlab-server<3,>=2.27.1->jupyterlab->jupyter) (2.17.0)
+Requirement already satisfied: json5>=0.9.0 in /usr/local/lib/python3.12/dist-packages (from jupyterlab-server<3,>=2.27.1->jupyterlab->jupyter) (0.12.1)
+Requirement already satisfied: requests>=2.31 in /usr/local/lib/python3.12/dist-packages (from jupyterlab-server<3,>=2.27.1->jupyterlab->jupyter) (2.34.2)
+Requirement already satisfied: argon2-cffi-bindings in /usr/local/lib/python3.12/dist-packages (from argon2-cffi>=21.1->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (25.1.0)
+Requirement already satisfied: python-json-logger>=2.0.4 in /usr/local/lib/python3.12/dist-packages (from jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (4.0.0)
+Requirement already satisfied: rfc3339-validator in /usr/local/lib/python3.12/dist-packages (from jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.1.4)
+Requirement already satisfied: rfc3986-validator>=0.1.1 in /usr/local/lib/python3.12/dist-packages (from jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (0.1.1)
+Requirement already satisfied: fqdn in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.5.1)
+Requirement already satisfied: isoduration in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (20.11.0)
+Requirement already satisfied: jsonpointer>1.13 in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (3.0.0)
+Requirement already satisfied: rfc3987-syntax>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.1.0)
+Requirement already satisfied: uri-template in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.3.0)
+Requirement already satisfied: webcolors>=24.6.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (24.11.1)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests>=2.31->jupyterlab-server<3,>=2.27.1->jupyterlab->jupyter) (3.4.3)
+Requirement already satisfied: urllib3<3,>=1.26 in /usr/local/lib/python3.12/dist-packages (from requests>=2.31->jupyterlab-server<3,>=2.27.1->jupyterlab->jupyter) (2.5.0)
+Requirement already satisfied: lark>=1.2.2 in /usr/local/lib/python3.12/dist-packages (from rfc3987-syntax>=1.1.0->jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.2.2)
+Requirement already satisfied: cffi>=1.0.1 in /usr/local/lib/python3.12/dist-packages (from argon2-cffi-bindings->argon2-cffi>=21.1->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (2.0.0)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.12/dist-packages (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi>=21.1->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (2.23)
+Requirement already satisfied: arrow>=0.15.0 in /usr/local/lib/python3.12/dist-packages (from isoduration->jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (1.3.0)
+Requirement already satisfied: types-python-dateutil>=2.8.10 in /usr/local/lib/python3.12/dist-packages (from arrow>=0.15.0->isoduration->jsonschema[format-nongpl]>=4.18.0->jupyter-events>=0.11.0->jupyter-server<3,>=2.4.0->jupyterlab->jupyter) (2.9.0.20251008)
+Requirement already satisfied: executing>=1.2.0 in /usr/local/lib/python3.12/dist-packages (from stack_data->ipython>=7.23.1->ipykernel) (2.2.1)
+Requirement already satisfied: asttokens>=2.1.0 in /usr/local/lib/python3.12/dist-packages (from stack_data->ipython>=7.23.1->ipykernel) (3.0.0)
+Requirement already satisfied: pure-eval in /usr/local/lib/python3.12/dist-packages (from stack_data->ipython>=7.23.1->ipykernel) (0.2.3)
+Requirement already satisfied: shellingham>=1.3.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers>=4.43->-r requirements.txt (line 11)) (1.5.4)
+Requirement already satisfied: rich>=13.8.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers>=4.43->-r requirements.txt (line 11)) (15.0.0)
+Requirement already satisfied: annotated-doc>=0.0.2 in /usr/local/lib/python3.12/dist-packages (from typer->transformers>=4.43->-r requirements.txt (line 11)) (0.0.5)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /usr/local/lib/python3.12/dist-packages (from rich>=13.8.0->typer->transformers>=4.43->-r requirements.txt (line 11)) (4.2.0)
+Requirement already satisfied: mdurl~=0.1 in /usr/local/lib/python3.12/dist-packages (from markdown-it-py>=2.2.0->rich>=13.8.0->typer->transformers>=4.43->-r requirements.txt (line 11)) (0.1.2)
+Downloading jupyter-1.1.1-py2.py3-none-any.whl (2.7 kB)
+Downloading pandas-3.1.1-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.0/12.0 MB 62.0 MB/s  0:00:00
+Downloading matplotlib-3.11.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 194.2 MB/s  0:00:00
+Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+Downloading sentence_transformers-6.2.0-py3-none-any.whl (760 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 760.7/760.7 kB 134.0 MB/s  0:00:00
+Downloading accelerate-1.15.0-py3-none-any.whl (394 kB)
+Downloading contourpy-1.4.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (383 kB)
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.68.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 90.5 MB/s  0:00:00
+Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Downloading kiwisolver-1.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 244.3 MB/s  0:00:00
+Downloading scikit_learn-1.9.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 183.1 MB/s  0:00:00
+Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+Downloading narwhals-2.28.0-py3-none-any.whl (490 kB)
+Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 217.0 MB/s  0:00:00
+Downloading threadpoolctl-3.8.0-py3-none-any.whl (32 kB)
+Downloading jupyter_console-6.6.3-py3-none-any.whl (24 kB)
+Installing collected packages: threadpoolctl, scipy, pluggy, narwhals, kiwisolver, joblib, iniconfig, fonttools, cycler, contourpy, scikit-learn, pytest, pandas, matplotlib, jupyter-console, accelerate, sentence-transformers, jupyter
+
+Successfully installed accelerate-1.15.0 contourpy-1.4.0 cycler-0.12.1 fonttools-4.68.0 iniconfig-2.3.1 joblib-1.6.0 jupyter-1.1.1 jupyter-console-6.6.3 kiwisolver-1.5.1 matplotlib-3.11.2 narwhals-2.28.0 pandas-3.1.1 pluggy-1.7.0 pytest-9.2.0 scikit-learn-1.9.1 scipy-1.18.1 sentence-transformers-6.2.0 threadpoolctl-3.8.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Fetching 12 files:   0%|          | 0/12 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 12 files:   8%|▊         | 1/12 [00:02<00:22,  2.09s/it]Fetching 12 files:  25%|██▌       | 3/12 [00:02<00:05,  1.72it/s]Fetching 12 files:  42%|████▏     | 5/12 [00:03<00:03,  1.91it/s]Fetching 12 files:  58%|█████▊    | 7/12 [00:03<00:02,  2.07it/s]Fetching 12 files:  67%|██████▋   | 8/12 [00:41<00:36,  9.16s/it]Fetching 12 files:  75%|███████▌  | 9/12 [01:08<00:40, 13.57s/it]Fetching 12 files:  83%|████████▎ | 10/12 [03:24<01:31, 45.75s/it]Fetching 12 files:  92%|█████████▏| 11/12 [03:30<00:34, 34.83s/it]Fetching 12 files: 100%|██████████| 12/12 [03:56<00:00, 32.44s/it]Fetching 12 files: 100%|██████████| 12/12 [03:56<00:00, 19.74s/it]
+ok NousResearch/Meta-Llama-3.1-8B-Instruct
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]Fetching 11 files:   9%|▉         | 1/11 [00:01<00:19,  1.95s/it]Fetching 11 files:  18%|█▊        | 2/11 [00:02<00:08,  1.12it/s]Fetching 11 files:  45%|████▌     | 5/11 [00:02<00:02,  2.28it/s]Fetching 11 files:  64%|██████▎   | 7/11 [00:03<00:01,  3.46it/s]Fetching 11 files:  73%|███████▎  | 8/11 [00:21<00:13,  4.48s/it]Fetching 11 files:  82%|████████▏ | 9/11 [03:34<01:40, 50.21s/it]Fetching 11 files:  91%|█████████ | 10/11 [03:34<00:37, 37.31s/it]Fetching 11 files: 100%|██████████| 11/11 [04:12<00:00, 37.52s/it]Fetching 11 files: 100%|██████████| 11/11 [04:12<00:00, 23.00s/it]
+ok Qwen/Qwen2.5-Coder-7B-Instruct
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:  10%|█         | 1/10 [00:01<00:17,  1.99s/it]Fetching 10 files:  40%|████      | 4/10 [00:02<00:02,  2.45it/s]Fetching 10 files:  70%|███████   | 7/10 [00:02<00:00,  4.83it/s]Fetching 10 files: 100%|██████████| 10/10 [00:08<00:00,  1.03s/it]Fetching 10 files: 100%|██████████| 10/10 [00:08<00:00,  1.18it/s]
+ok BAAI/bge-small-en-v1.5
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files:  17%|█▋        | 1/6 [00:01<00:07,  1.47s/it]Fetching 6 files:  33%|███▎      | 2/6 [00:01<00:02,  1.48it/s]Fetching 6 files:  50%|█████     | 3/6 [00:01<00:01,  2.27it/s]Fetching 6 files:  67%|██████▋   | 4/6 [00:03<00:01,  1.18it/s]Fetching 6 files: 100%|██████████| 6/6 [01:39<00:00, 26.04s/it]Fetching 6 files: 100%|██████████| 6/6 [01:39<00:00, 16.66s/it]
+ok BAAI/bge-reranker-base
+.......................................                                  [100%]
+39 passed in 33.91s
+vllm 0.33.0 | torch 2.14.0+cu130 | GPUs 1
+Setup done. HF_HOME=/workspace/hf. Next: tmux new -s run 'bash scripts/run_cloud.sh'
+[19:07:57] start 04_supplychain_qa_colab -> /workspace/pypi_rag_work/executed/04_taskb.ipynb
+[19:38:58] done  04_supplychain_qa_colab
+Task B done: /workspace/pypi_rag_work/supplychain/runs
+[launch] finished Mon Nov  9 19:38:58 UTC 2026
+[launch] stopping pod fs1m280qy4b3np in 2700s

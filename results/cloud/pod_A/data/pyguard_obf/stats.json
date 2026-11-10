@@ -1,0 +1,53 @@
+{
+  "n": 2069,
+  "specs": [
+    "pyguard_obf:/workspace/pypi_rag_work/external/PyGuard"
+  ],
+  "split_report": {
+    "strategy": "grouped",
+    "seed": 42,
+    "ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "near_dup_threshold": 0.9,
+    "n_groups": 1963,
+    "largest_group": 66,
+    "n_near_dup_pairs": 30157,
+    "near_dup_pairs_skipped_boilerplate": 27942,
+    "counts": {
+      "test/benign": 154,
+      "test/malicious": 156,
+      "train/benign": 720,
+      "train/malicious": 728,
+      "val/benign": 154,
+      "val/malicious": 157
+    }
+  },
+  "leakage": {
+    "counts": {
+      "val": {
+        "malicious": 157,
+        "benign": 154
+      },
+      "train": {
+        "malicious": 728,
+        "benign": 720
+      },
+      "test": {
+        "malicious": 156,
+        "benign": 154
+      }
+    },
+    "exact_archive_dup_across_splits": 0,
+    "file_hash_dup_across_splits": 99,
+    "package_name_across_splits": 0,
+    "family_across_splits": 0,
+    "near_dup_pairs_across_splits": 13041,
+    "near_dup_pairs_total": 30157,
+    "test_cross_split_dup_flagged": 0
+  },
+  "no_source": 2,
+  "parse_files": 22692
+}

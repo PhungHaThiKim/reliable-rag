@@ -1,0 +1,175 @@
+{
+ "seed": 2,
+ "today": "2026-11-01",
+ "n_docs": 342,
+ "doc_types": {
+  "service_manifest": 32,
+  "package_metadata": 270,
+  "advisory": 7,
+  "policy": 4,
+  "adr": 4,
+  "incident": 4,
+  "team": 6,
+  "api_doc": 15
+ },
+ "n_questions": 400,
+ "by_group": {
+  "G1": 100,
+  "G2": 100,
+  "G3": 100,
+  "G4": 100
+ },
+ "by_type": {
+  "G1/code_flow": 77,
+  "G1/code_host": 18,
+  "G1/code_env": 5,
+  "G2/ban_allowed": 62,
+  "G2/exception_valid": 4,
+  "G2/patch_window": 23,
+  "G2/token_lifetime": 11,
+  "G3/affected_set": 7,
+  "G3/affected_filtered": 7,
+  "G3/teams_to_notify": 7,
+  "G3/is_affected": 47,
+  "G3/exposure_path": 13,
+  "G3/version_of": 19,
+  "G4/is_affected": 18,
+  "G4/affected_set": 2,
+  "G4/teams_to_notify": 2,
+  "G4/version_of": 4,
+  "G4/loads_package": 12,
+  "G4/token_lifetime": 17,
+  "G4/undocumented": 29,
+  "G4/code_dynamic_dispatch": 8,
+  "G4/code_missing_code": 7,
+  "G4/code_dispatch": 1
+ },
+ "by_trap": {
+  "none": 72,
+  "co_occurrence": 17,
+  "cross_function": 39,
+  "superseded_policy": 47,
+  "dev_exempt": 3,
+  "adr_expired": 2,
+  "adr_exception": 3,
+  "exception_other_service": 4,
+  "version_out_of_range": 18,
+  "partial_overlap": 11,
+  "aggregation": 21,
+  "multi_hop": 45,
+  "decommissioned": 3,
+  "extra_not_enabled": 7,
+  "not_dependent": 8,
+  "unknown_entity": 18,
+  "unpinned": 8,
+  "config_plugins": 12,
+  "conflicting_policies": 17,
+  "not_documented": 29,
+  "dynamic_dispatch": 9,
+  "missing_code": 7
+ },
+ "answerable": {
+  "G1/True": 100,
+  "G2/True": 100,
+  "G3/True": 100,
+  "G4/False": 100
+ },
+ "kg": {
+  "nodes": 423,
+  "edges": 949,
+  "node_kinds": {
+   "pkg": 96,
+   "pv": 270,
+   "svc": 32,
+   "team": 6,
+   "adv": 7,
+   "pol": 4,
+   "adr": 4,
+   "inc": 4
+  },
+  "edge_types": {
+   "VERSION_OF": 270,
+   "REQUIRES": 315,
+   "OWNED_BY": 32,
+   "DEPENDS_ON": 245,
+   "CALLS": 50,
+   "AFFECTS": 7,
+   "MATCHES": 7,
+   "BANS": 4,
+   "SUPERSEDES": 1,
+   "EXEMPTS": 8,
+   "INVOLVES": 4,
+   "MENTIONS": 6
+  },
+  "edges_missing_provenance": 0
+ },
+ "advisories": {
+  "ADV-2026-042": {
+   "package": "grpciio",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-admin",
+    "svc-gateway",
+    "svc-loyalty",
+    "svc-signup",
+    "svc-warehouse"
+   ]
+  },
+  "ADV-2026-094": {
+   "package": "six-py",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-payouts",
+    "svc-wallet"
+   ]
+  },
+  "ADV-2026-095": {
+   "package": "pygmentts",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-invoices",
+    "svc-partner-api"
+   ]
+  },
+  "ADV-2026-060": {
+   "package": "botcoore",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-chatbot",
+    "svc-search-api"
+   ]
+  },
+  "ADV-2026-025": {
+   "package": "urllib3",
+   "spec": "==4.9.1",
+   "kind": "compromised",
+   "affected": [
+    "svc-orders-api",
+    "svc-payouts"
+   ]
+  },
+  "ADV-2026-066": {
+   "package": "tenacity",
+   "spec": ">=4.14.1,<4.15.0",
+   "kind": "compromised",
+   "affected": [
+    "svc-loyalty",
+    "svc-payouts"
+   ]
+  },
+  "ADV-2026-087": {
+   "package": "acme-cache",
+   "spec": "==2.2.1",
+   "kind": "compromised",
+   "affected": [
+    "svc-email-relay",
+    "svc-invoices",
+    "svc-mobile-bff"
+   ]
+  }
+ }
+}

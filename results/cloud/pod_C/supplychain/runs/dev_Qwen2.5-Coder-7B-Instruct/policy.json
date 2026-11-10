@@ -1,0 +1,8 @@
+{
+  "tau": 1.0,
+  "filter_elements": false,
+  "dev_accuracy": 0.6125,
+  "dev_abstention_rate": 0.30625,
+  "tuned_on": "/workspace/pypi_rag_work/supplychain/runs/dev_Qwen2.5-Coder-7B-Instruct:e3",
+  "n": 160
+}

@@ -1,0 +1,9 @@
+{
+  "min_critical": 1,
+  "conflict_severity": null,
+  "abstain_on_dispatch": false,
+  "val_strict_f1": 0.5740740740740741,
+  "val_coverage": 0.99,
+  "tuned_on": "/workspace/pypi_rag_work/results/r02_val_malllm_Qwen2.5-Coder-7B-Instruct:val:e3",
+  "n": 200
+}

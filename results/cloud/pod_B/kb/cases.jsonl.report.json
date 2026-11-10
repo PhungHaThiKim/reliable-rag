@@ -1,0 +1,37 @@
+{
+  "sources": [
+    "builtin",
+    "case_rules"
+  ],
+  "counts_before_audit": {
+    "builtin": 30,
+    "case_rules": 5
+  },
+  "n_docs": 35,
+  "n_dropped": 0,
+  "leakage_before": {
+    "n_docs": 35,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [],
+    "n_docs_with_eval_code": 0,
+    "clean": true
+  },
+  "leakage_after": {
+    "n_docs": 35,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [],
+    "n_docs_with_eval_code": 0,
+    "clean": true
+  },
+  "by_source_type": {
+    "rule": 10,
+    "benign_rule": 9,
+    "pattern": 16
+  }
+}

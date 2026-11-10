@@ -9,8 +9,9 @@ Paper tham chiếu: *Detecting Malicious Source Code in PyPI Packages with LLMs:
 Tri thức hành vi lấy từ [PyGuard](https://github.com/lxyeternal/PyGuard).
 
 **Trạng thái.** Code, 39 test và 5 notebook đã xong. Lần chạy thật đầu tiên: 2026-11-10 trên 3 pod RunPod một GPU, 2 reader
-(Llama-3.1-8B-Instruct, Qwen2.5-Coder-7B-Instruct). Kết quả tổng hợp ở `results/cloud/` (chỉ `results.json`, `report.md`, notebook 00/01/04;
-dữ liệu và dự đoán Task A chứa mã độc ở lại pod), đồ thị ở `results/figures/`, đọc kết quả ở [docs/PRESENTATION_FLOW.md](docs/PRESENTATION_FLOW.md).
+(Llama-3.1-8B-Instruct, Qwen2.5-Coder-7B-Instruct). Kết quả ở `results/cloud/` (`results.json`, `report.md`, notebook 00/01/04 đã chạy có output,
+câu hỏi và dự đoán Task B; dữ liệu, dự đoán Task A và notebook 02/03 có mã độc nên ở lại pod; mô tả ở [results/README.md](results/README.md)),
+đồ thị ở `results/figures/`, đọc kết quả ở [docs/PRESENTATION_FLOW.md](docs/PRESENTATION_FLOW.md).
 
 **Đo được trong lần chạy 2026-11-02** (thay cho mọi ước lượng cũ):
 

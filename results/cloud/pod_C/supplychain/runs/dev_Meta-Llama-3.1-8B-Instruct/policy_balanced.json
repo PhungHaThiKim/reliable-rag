@@ -1,0 +1,11 @@
+{
+  "tau": 0.0,
+  "filter_elements": false,
+  "objective": "0.5*answerable_exact + 0.5*correct_abstention",
+  "dev_objective": 0.591667,
+  "dev_answerable_exact": 0.23333333333333334,
+  "dev_correct_abstention": 0.95,
+  "dev_answer_coverage": 0.38333333333333336,
+  "tuned_on": "results/cloud/pod_C/supplychain/runs/dev_Meta-Llama-3.1-8B-Instruct:e3",
+  "n": 160
+}

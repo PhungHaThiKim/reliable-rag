@@ -1,0 +1,8 @@
+{
+  "tau": 0.0,
+  "filter_elements": false,
+  "dev_accuracy": 0.4125,
+  "dev_abstention_rate": 0.7,
+  "tuned_on": "/workspace/pypi_rag_work/supplychain/runs/dev_Meta-Llama-3.1-8B-Instruct:e3",
+  "n": 160
+}

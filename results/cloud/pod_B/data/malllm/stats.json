@@ -1,0 +1,54 @@
+{
+  "n": 5192,
+  "specs": [
+    "malllm:/workspace/pypi_rag_work/external/mal-LLM"
+  ],
+  "split_report": {
+    "strategy": "upstream",
+    "seed": 42,
+    "ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "near_dup_threshold": 0.9,
+    "n_groups": 4105,
+    "largest_group": 427,
+    "n_near_dup_pairs": 38115,
+    "near_dup_pairs_skipped_boilerplate": 21185,
+    "counts": {
+      "test/benign": 753,
+      "test/malicious": 276,
+      "train/benign": 2474,
+      "train/malicious": 953,
+      "val/benign": 531,
+      "val/malicious": 205
+    },
+    "test_cross_split_dup": 211
+  },
+  "leakage": {
+    "counts": {
+      "train": {
+        "malicious": 953,
+        "benign": 2474
+      },
+      "val": {
+        "malicious": 205,
+        "benign": 531
+      },
+      "test": {
+        "malicious": 276,
+        "benign": 753
+      }
+    },
+    "exact_archive_dup_across_splits": 53,
+    "file_hash_dup_across_splits": 53,
+    "package_name_across_splits": 42,
+    "family_across_splits": 0,
+    "near_dup_pairs_across_splits": 14281,
+    "near_dup_pairs_total": 38115,
+    "test_cross_split_dup_flagged": 211
+  },
+  "no_source": 74,
+  "parse_files": 5118
+}

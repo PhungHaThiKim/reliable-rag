@@ -1,0 +1,58 @@
+{
+  "sources": [
+    "builtin",
+    "examples",
+    "malllm_code",
+    "pyguard",
+    "yara"
+  ],
+  "counts_before_audit": {
+    "builtin": 30,
+    "examples": 1842,
+    "malllm_code": 744,
+    "pyguard": 304,
+    "yara": 8
+  },
+  "n_docs": 2859,
+  "n_dropped": 69,
+  "leakage_before": {
+    "n_docs": 2928,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [
+      "ex:malllm-train-m-00105:C1",
+      "ex:malllm-train-m-00116:C1",
+      "ex:malllm-train-m-00815:C1",
+      "ex:malllm-train-m-00718:C1",
+      "ex:malllm-train-m-00992:C1",
+      "ex:malllm-train-m-00755:C1",
+      "ex:malllm-train-m-00579:C1",
+      "ex:malllm-train-m-00103:C1",
+      "ex:malllm-train-m-00995:C1",
+      "ex:malllm-train-m-01157:C1"
+    ],
+    "n_docs_with_eval_code": 69,
+    "clean": false
+  },
+  "leakage_after": {
+    "n_docs": 2859,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [],
+    "n_docs_with_eval_code": 0,
+    "clean": true
+  },
+  "by_source_type": {
+    "rule": 7,
+    "benign_rule": 7,
+    "pattern": 16,
+    "malicious_example": 1019,
+    "benign_example": 1498,
+    "pyguard_pattern": 304,
+    "yara": 8
+  }
+}

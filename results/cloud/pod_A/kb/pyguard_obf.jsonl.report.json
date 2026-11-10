@@ -1,0 +1,47 @@
+{
+  "sources": [
+    "builtin",
+    "examples",
+    "pyguard",
+    "yara"
+  ],
+  "counts_before_audit": {
+    "builtin": 30,
+    "examples": 1567,
+    "pyguard": 304,
+    "yara": 8
+  },
+  "n_docs": 1908,
+  "n_dropped": 1,
+  "leakage_before": {
+    "n_docs": 1909,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [
+      "ex:pyguard-obf-m-2675d2f2ca4dab13:C1"
+    ],
+    "n_docs_with_eval_code": 1,
+    "clean": false
+  },
+  "leakage_after": {
+    "n_docs": 1908,
+    "docs_from_eval_samples": [],
+    "n_docs_from_eval_samples": 0,
+    "docs_mentioning_eval_package": [],
+    "n_docs_mentioning_eval_package": 0,
+    "docs_with_eval_code": [],
+    "n_docs_with_eval_code": 0,
+    "clean": true
+  },
+  "by_source_type": {
+    "rule": 7,
+    "benign_rule": 7,
+    "pattern": 16,
+    "malicious_example": 828,
+    "benign_example": 738,
+    "pyguard_pattern": 304,
+    "yara": 8
+  }
+}

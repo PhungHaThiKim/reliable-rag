@@ -1,0 +1,9 @@
+{
+  "min_critical": 1,
+  "conflict_severity": null,
+  "abstain_on_dispatch": false,
+  "val_strict_f1": 0.7310924369747899,
+  "val_coverage": 0.77,
+  "tuned_on": "/workspace/pypi_rag_work/results/r02_val_pyguard_obf_Meta-Llama-3.1-8B-Instruct:val:e3",
+  "n": 200
+}

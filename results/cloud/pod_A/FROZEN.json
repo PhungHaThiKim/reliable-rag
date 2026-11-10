@@ -1,0 +1,60 @@
+{
+  "upstream": {
+    "mal-LLM": {
+      "url": "https://github.com/malexternalsc/mal-LLM.git",
+      "sha": "0491c6c7be7cff45d9d9cd25ca1385d0bf75281b",
+      "license_files": [
+        "LICENSE"
+      ]
+    },
+    "PyGuard": {
+      "url": "https://github.com/lxyeternal/PyGuard.git",
+      "sha": "f684d0ab504cea8c0550a1506c2f7d57f827902a",
+      "license_files": [],
+      "note": "kh\u00f4ng c\u00f3 license: ch\u1ec9 \u0111\u1ecdc l\u00fac ch\u1ea1y (sparse checkout), kh\u00f4ng ph\u00e2n ph\u1ed1i l\u1ea1i, tr\u00edch d\u1eabn"
+    },
+    "expected_files_present": true
+  },
+  "datasets": {
+    "pyguard_obf": {
+      "val": {
+        "n": 311,
+        "sha": "edf00c1655574deb"
+      },
+      "train": {
+        "n": 1448,
+        "sha": "dbb11e12a0d87acf"
+      },
+      "test": {
+        "n": 310,
+        "sha": "678bce945efafde0"
+      }
+    },
+    "synthetic": {
+      "train": {
+        "n": 204,
+        "sha": "ed80d42f4d48e643"
+      },
+      "val": {
+        "n": 48,
+        "sha": "74a86788a35f076e"
+      },
+      "test": {
+        "n": 48,
+        "sha": "c3abdad5c0c54404"
+      }
+    },
+    "cases": {
+      "test": {
+        "n": 6,
+        "sha": "e6db60edefe32738"
+      }
+    }
+  },
+  "kb": {
+    "pyguard_obf": "78cae63f7620e1ee",
+    "synthetic": "38356e1b3ec9bc37",
+    "cases": "521042192a05abf1"
+  },
+  "pyguard_bundle": "5e672c19053dd550"
+}

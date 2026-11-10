@@ -1,0 +1,44 @@
+[
+  {
+    "method": "e0_malllm",
+    "paper_acc": 0.708,
+    "paper_p": 0.466,
+    "paper_r": 0.462,
+    "paper_f1": 0.459,
+    "ours_acc": 0.83,
+    "ours_p": 0.917,
+    "ours_r": 0.402,
+    "ours_f1": 0.559,
+    "coverage": 0.893,
+    "parse_fail": 0.107,
+    "k\u1ebft lu\u1eadn": "l\u1ec7ch v\u1eeba"
+  },
+  {
+    "method": "e1_malllm_yara",
+    "paper_acc": 0.721,
+    "paper_p": 0.484,
+    "paper_r": 0.551,
+    "paper_f1": 0.515,
+    "ours_acc": 0.776,
+    "ours_p": 0.979,
+    "ours_r": 0.167,
+    "ours_f1": 0.285,
+    "coverage": 0.894,
+    "parse_fail": 0.106,
+    "k\u1ebft lu\u1eadn": "kh\u00f4ng t\u00e1i l\u1eadp \u0111\u01b0\u1ee3c"
+  },
+  {
+    "method": "e1_malllm_code",
+    "paper_acc": 0.604,
+    "paper_p": 0.352,
+    "paper_r": 0.579,
+    "paper_f1": 0.438,
+    "ours_acc": 0.431,
+    "ours_p": 0.314,
+    "ours_r": 0.946,
+    "ours_f1": 0.471,
+    "coverage": 0.989,
+    "parse_fail": 0.011,
+    "k\u1ebft lu\u1eadn": "x\u1ea5p x\u1ec9"
+  }
+]

@@ -8,5 +8,9 @@ __pycache__/
 /work/
 /results/*
 !/results/README.md
+# ket qua lan chay 2026-11-10 (tong hop, notebook da chay, Task B); khong co du lieu va du doan Task A
+!/results/cloud/
+!/results/figures/
+/results/cloud/*.tgz
 *.npy
 llm_cache.jsonl

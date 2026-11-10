@@ -1,0 +1,6 @@
+[launch] start Mon Nov  9 18:30:24 UTC 2026 datasets=pyguard_obf extras=0
+[18:30:29] start 00_data_knowledge_colab -> /workspace/pypi_rag_work/executed/00_data.ipynb
+[18:33:42] done  00_data_knowledge_colab
+[18:33:42] start 01_experiments_colab -> /workspace/pypi_rag_work/executed/01_all.ipynb
+[launch] finished Mon Nov  9 19:10:26 UTC 2026
+[launch] stopping pod c7wxow0a66ckqw in 2700s

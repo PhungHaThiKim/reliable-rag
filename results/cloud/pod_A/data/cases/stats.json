@@ -1,0 +1,43 @@
+{
+  "n": 6,
+  "specs": [
+    "cases:"
+  ],
+  "split_report": {
+    "strategy": "keep",
+    "seed": 42,
+    "ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "near_dup_threshold": 0.9,
+    "n_groups": 6,
+    "largest_group": 1,
+    "n_near_dup_pairs": 0,
+    "near_dup_pairs_skipped_boilerplate": 0,
+    "counts": {
+      "test/benign": 2,
+      "test/malicious": 3,
+      "test/unknown": 1
+    }
+  },
+  "leakage": {
+    "counts": {
+      "test": {
+        "benign": 2,
+        "malicious": 3,
+        "unknown": 1
+      }
+    },
+    "exact_archive_dup_across_splits": 0,
+    "file_hash_dup_across_splits": 0,
+    "package_name_across_splits": 0,
+    "family_across_splits": 0,
+    "near_dup_pairs_across_splits": 0,
+    "near_dup_pairs_total": 0,
+    "test_cross_split_dup_flagged": 0
+  },
+  "no_source": 0,
+  "parse_files": 19
+}

@@ -1,0 +1,174 @@
+{
+ "seed": 1,
+ "today": "2026-11-01",
+ "n_docs": 342,
+ "doc_types": {
+  "service_manifest": 32,
+  "package_metadata": 270,
+  "advisory": 7,
+  "policy": 4,
+  "adr": 4,
+  "incident": 4,
+  "team": 6,
+  "api_doc": 15
+ },
+ "n_questions": 160,
+ "by_group": {
+  "G1": 40,
+  "G2": 40,
+  "G3": 40,
+  "G4": 40
+ },
+ "by_type": {
+  "G1/code_flow": 29,
+  "G1/code_env": 4,
+  "G1/code_host": 7,
+  "G2/ban_allowed": 25,
+  "G2/exception_valid": 3,
+  "G2/patch_window": 8,
+  "G2/token_lifetime": 4,
+  "G3/affected_set": 3,
+  "G3/affected_filtered": 3,
+  "G3/teams_to_notify": 3,
+  "G3/is_affected": 19,
+  "G3/exposure_path": 7,
+  "G3/version_of": 5,
+  "G4/is_affected": 8,
+  "G4/teams_to_notify": 1,
+  "G4/affected_set": 2,
+  "G4/version_of": 3,
+  "G4/loads_package": 5,
+  "G4/token_lifetime": 6,
+  "G4/undocumented": 9,
+  "G4/code_dynamic_dispatch": 4,
+  "G4/code_missing_code": 1,
+  "G4/code_dispatch": 1
+ },
+ "by_trap": {
+  "none": 34,
+  "co_occurrence": 6,
+  "cross_function": 13,
+  "superseded_policy": 16,
+  "dev_exempt": 1,
+  "adr_exception": 2,
+  "adr_expired": 2,
+  "exception_other_service": 1,
+  "version_out_of_range": 6,
+  "partial_overlap": 4,
+  "aggregation": 9,
+  "multi_hop": 17,
+  "dev_only": 3,
+  "extra_not_enabled": 2,
+  "decommissioned": 1,
+  "not_dependent": 3,
+  "unknown_entity": 9,
+  "unpinned": 5,
+  "config_plugins": 5,
+  "conflicting_policies": 6,
+  "not_documented": 9,
+  "dynamic_dispatch": 5,
+  "missing_code": 1
+ },
+ "answerable": {
+  "G1/True": 40,
+  "G2/True": 40,
+  "G3/True": 40,
+  "G4/False": 40
+ },
+ "kg": {
+  "nodes": 423,
+  "edges": 919,
+  "node_kinds": {
+   "pkg": 96,
+   "pv": 270,
+   "svc": 32,
+   "team": 6,
+   "adv": 7,
+   "pol": 4,
+   "adr": 4,
+   "inc": 4
+  },
+  "edge_types": {
+   "VERSION_OF": 270,
+   "REQUIRES": 294,
+   "OWNED_BY": 32,
+   "CALLS": 39,
+   "DEPENDS_ON": 247,
+   "AFFECTS": 7,
+   "MATCHES": 7,
+   "BANS": 4,
+   "SUPERSEDES": 1,
+   "EXEMPTS": 8,
+   "INVOLVES": 4,
+   "MENTIONS": 6
+  },
+  "edges_missing_provenance": 0
+ },
+ "advisories": {
+  "ADV-2026-080": {
+   "package": "reportlab-utils",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-email-relay",
+    "svc-web-bff"
+   ]
+  },
+  "ADV-2026-098": {
+   "package": "orrjson",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-checkout",
+    "svc-mobile-bff"
+   ]
+  },
+  "ADV-2026-045": {
+   "package": "sqlalchemy2",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-feature-flags",
+    "svc-pricing-api"
+   ]
+  },
+  "ADV-2026-024": {
+   "package": "tqdmm",
+   "spec": "*",
+   "kind": "typosquat",
+   "affected": [
+    "svc-orders-api",
+    "svc-pricing-api"
+   ]
+  },
+  "ADV-2026-037": {
+   "package": "anyio",
+   "spec": "==4.11.1",
+   "kind": "compromised",
+   "affected": [
+    "svc-backoffice",
+    "svc-mobile-bff",
+    "svc-pricing-api"
+   ]
+  },
+  "ADV-2026-044": {
+   "package": "s3transfer",
+   "spec": ">=3.2.1,<3.3.0",
+   "kind": "compromised",
+   "affected": [
+    "svc-ledger-api",
+    "svc-scheduler-api"
+   ]
+  },
+  "ADV-2026-019": {
+   "package": "acme-catalog",
+   "spec": "==4.5.1",
+   "kind": "compromised",
+   "affected": [
+    "svc-checkout",
+    "svc-email-relay",
+    "svc-media"
+   ]
+  }
+ }
+}
